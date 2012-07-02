@@ -1,12 +1,14 @@
 .DS_Store
 
+### EaselJS ###
+
 #ignore .git folder for yuidoc project, otherwise it will be treated as a submodule
-build/tools/yuidoc/.git/*
+easeljs/build/tools/yuidoc/.git/*
 
 #ignore compiled python files
 *.pyc
 
-build/output/
-build/tmp/
+easeljs/build/output/
+easeljs/build/tmp/
 /.idea/
 *TMP*
