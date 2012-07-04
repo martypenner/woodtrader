@@ -42,6 +42,6 @@ WoodTrader = ig.Game.extend({
 });
 
 // Start the game
-ig.main( '#canvas', WoodTrader, 60, 768, 480, 1 );
+ig.main( '#canvas', WoodTrader, 60, 510, 480, 1 );
 
 });
