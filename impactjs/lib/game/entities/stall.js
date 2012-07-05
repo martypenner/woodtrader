@@ -20,9 +20,6 @@ ig.module(
         triggeredBy: function (other, trigger) {
             // Show menu
             console.log('a')
-        },
-
-        // Override the update function to get better performance, since nothing needs to happen here
-        update: function () {}
+        }
     });
 });
