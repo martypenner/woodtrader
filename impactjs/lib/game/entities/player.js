@@ -52,13 +52,17 @@ ig.module(
         },
 
         handleButtons: function () {
+            // Don't move the player if he's not allowed to (e.g. we're in a menu)
             if (!this.movementAllowed) {
                 return;
             }
 
+            // If moving sideways, change the hit box dimensions and offset
             if (ig.input.state('up')) {
                 this.currentAnim = this.anims.walkUp;
                 this.lastDirection = 'Up';
+                this.size.x = 16;
+                this.offset.x = 0;
                 this.vel.x = 0;
                 this.vel.y = -this.velocity;
 
@@ -70,6 +74,8 @@ ig.module(
             } else if (ig.input.state('down')) {
                 this.currentAnim = this.anims.walkDown;
                 this.lastDirection = 'Down';
+                this.size.x = 16;
+                this.offset.x = 0;
                 this.vel.x = 0;
                 this.vel.y = this.velocity;
 
@@ -81,17 +87,23 @@ ig.module(
             } else if (ig.input.state('right')) {
                 this.currentAnim = this.anims.walkRight;
                 this.lastDirection = 'Right';
+                this.size.x = 29;
+                this.offset.x = 10;
                 this.vel.x = this.velocity;
                 this.vel.y = 0;
             } else if (ig.input.state('left')) {
                 this.currentAnim = this.anims.walkLeft;
                 this.lastDirection = 'Left';
+                this.size.x = 29;
+                this.offset.x = 10;
                 this.vel.x = -this.velocity;
                 this.vel.y = 0;
             } else {
                 // Stop all movement and show the correct idle animation for
                 // the direction the player is facing
                 this.currentAnim = this.anims['idle' + this.lastDirection];
+                this.size.x = 16;
+                this.offset.x = 0;
                 this.vel.x = 0;
                 this.vel.y = 0;
             }
