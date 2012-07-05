@@ -9,7 +9,7 @@ ig.module(
 
         size: {x: 48, y: 64},
         collides: ig.Entity.COLLIDES.ACTIVE,
-        checkAgainst: ig.Entity.TYPE.A,
+        type: ig.Entity.TYPE.A,
 
         animSheet: new ig.AnimationSheet('media/hero.png', 48, 64),
 
@@ -95,14 +95,6 @@ ig.module(
                 this.vel.x = 0;
                 this.vel.y = 0;
             }
-        },
-
-        check: function () {
-            console.log('a');
-        },
-
-        triggeredBy: function (other, trigger) {
-            console.log(other, trigger);
         }
     });
 });
