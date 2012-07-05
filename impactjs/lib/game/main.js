@@ -6,8 +6,10 @@ ig.module(
     'impact.font',
 
     'game.levels.market1',
+
     'game.entities.player',
-    'game.entities.stall'
+    'game.entities.stall',
+    'game.entities.trigger'
 )
 .defines(function(){
 
