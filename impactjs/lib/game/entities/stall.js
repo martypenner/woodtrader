@@ -15,6 +15,9 @@ ig.module(
             this.addAnim('idle', 1, [0]);
 
             this.parent(x, y, settings);
-        }
+        },
+
+        // Override the update function to get better performance, since nothing needs to happen here
+        update: function () {}
     });
 });
