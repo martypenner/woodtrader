@@ -102,10 +102,14 @@ ig.module(
                 // Stop all movement and show the correct idle animation for
                 // the direction the player is facing
                 this.currentAnim = this.anims['idle' + this.lastDirection];
-                this.size.x = 16;
-                this.offset.x = 0;
                 this.vel.x = 0;
                 this.vel.y = 0;
+
+                // Reset the hitbox only if we're not facing right or left
+                if (['right', 'left'].indexOf(this.lastDirection) !== -1) {
+                    this.size.x = 16;
+                    this.offset.x = 0;
+                }
             }
         }
     });
