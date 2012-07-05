@@ -19,7 +19,6 @@ ig.module(
 
         triggeredBy: function (other, trigger) {
             // Show menu
-            console.log('a')
         }
     });
 });
