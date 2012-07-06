@@ -9,7 +9,7 @@ ig.module(
 
     'game.entities.player',
     'game.entities.stall',
-    'game.entities.trigger',
+    'game.entities.menu-trigger',
     'game.entities.enemy'
 )
 .defines(function(){
