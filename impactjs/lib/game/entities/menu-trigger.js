@@ -2,7 +2,7 @@ ig.module(
 	'game.entities.menu-trigger'
 )
 .requires(
-	'game.entities.trigger'
+	'game.entities.common.trigger'
 )
 .defines(function () {
 
