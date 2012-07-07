@@ -62,7 +62,7 @@ EntityPlayer = ig.Entity.extend({
         if (ig.input.state('up')) {
             this.currentAnim = this.anims.walkUp;
             this.lastDirection = 'Up';
-            this.size.x = 16;
+            this.size.x = 48;
             this.offset.x = 0;
             this.vel.x = 0;
             this.vel.y = -this.velocity;
@@ -75,7 +75,7 @@ EntityPlayer = ig.Entity.extend({
         } else if (ig.input.state('down')) {
             this.currentAnim = this.anims.walkDown;
             this.lastDirection = 'Down';
-            this.size.x = 16;
+            this.size.x = 48;
             this.offset.x = 0;
             this.vel.x = 0;
             this.vel.y = this.velocity;
@@ -108,7 +108,7 @@ EntityPlayer = ig.Entity.extend({
 
             // Reset the hitbox only if we're not facing right or left
             if (['right', 'left'].indexOf(this.lastDirection) !== -1) {
-                this.size.x = 16;
+                this.size.x = 48;
                 this.offset.x = 0;
             }
         }
