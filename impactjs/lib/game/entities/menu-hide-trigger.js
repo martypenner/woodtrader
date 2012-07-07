@@ -6,7 +6,9 @@ ig.module(
 )
 .defines(function () {
 
-EntityMenuHideTrigger = EntityMenuTrigger.extend({
+EntityMenuHideTrigger = EntityTrigger.extend({
+    wait: 0.2,
+
     check: function (other) {
         this.parent(other, 'hideMenu');
     }

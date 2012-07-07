@@ -2,7 +2,7 @@ ig.module(
 	'game.entities.menu-hide-down-trigger'
 )
 .requires(
-	'game.entities.menu-trigger'
+	'game.entities.menu-hide-trigger'
 )
 .defines(function () {
 

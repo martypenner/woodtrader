@@ -17,20 +17,6 @@ EntityMenu = EntityStaticEntity.extend({
 
     // Whether the menu should be shown on the next draw
     isVisible: false,
-    timer: null,
-
-    update: function () {
-        // Hide the menu if it's visible, the player has stepped away
-        // from the stall, and more than 0.2 seconds has elapsed
-        if (this.isVisible) {
-            if (this.timer.delta() > (ig.system.tick * 10)) {
-                this.timer.reset();
-                this.isVisible = false;
-            }
-        }
-
-        this.parent();
-    },
 
     draw: function () {
         if (this.isVisible) {
@@ -44,12 +30,13 @@ EntityMenu = EntityStaticEntity.extend({
     showMenuTrigger: function (other, trigger) {
         if (other.name == 'player') {
             this.isVisible = true;
+        }
+    },
 
-            if (null === this.timer) {
-                this.timer = new ig.Timer();
-            }
-
-            this.timer.reset();
+    // Hide menu if the player triggered it
+    hideMenuTrigger: function (other, trigger) {
+        if (other.name == 'player') {
+            this.isVisible = false;
         }
     }
 });
