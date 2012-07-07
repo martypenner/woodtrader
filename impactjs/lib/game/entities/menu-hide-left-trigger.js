@@ -6,7 +6,7 @@ ig.module(
 )
 .defines(function () {
 
-EntityMenuHideLeftTrigger = EntityTrigger.extend({
+EntityMenuHideLeftTrigger = EntityMenuHideTrigger.extend({
 });
 
 });
