@@ -83,7 +83,7 @@ EntityTrigger = ig.Entity.extend({
         }
     },
 
-    update: function(){}
+    update: function () {}
 });
 
 });
