@@ -12,3 +12,4 @@ easeljs/build/output/
 easeljs/build/tmp/
 /.idea/
 *TMP*
+impactjs/lib/impact
