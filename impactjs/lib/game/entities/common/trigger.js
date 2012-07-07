@@ -20,7 +20,7 @@ target.1, target.2 ... target.n
 */
 
 ig.module(
-	'game.entities.trigger'
+	'game.entities.common.trigger'
 )
 .requires(
 	'impact.entity'
