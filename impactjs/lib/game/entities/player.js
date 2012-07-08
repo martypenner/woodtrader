@@ -12,6 +12,9 @@ EntityPlayer = ig.Entity.extend({
     collides: ig.Entity.COLLIDES.ACTIVE,
     type: ig.Entity.TYPE.A,
 
+    // Ensure the player gets drawn near last (over most other entities)
+    zIndex: 1000,
+
     animSheet: new ig.AnimationSheet('media/hero.png', 48, 64),
 
     // Last direction the player was facing, so the correct idle animation is shown
