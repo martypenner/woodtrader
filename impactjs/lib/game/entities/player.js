@@ -8,7 +8,11 @@ ig.module(
 
 EntityPlayer = ig.Entity.extend({
 
-    size: {x: 48, y: 64},
+    size: {x: 29, y: 35},
+    offset: {x: 10, y: 28},
+
+    name: 'player',
+
     collides: ig.Entity.COLLIDES.ACTIVE,
     type: ig.Entity.TYPE.A,
 
