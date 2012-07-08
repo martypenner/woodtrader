@@ -62,8 +62,6 @@ EntityPlayer = ig.Entity.extend({
         if (ig.input.state('up')) {
             this.currentAnim = this.anims.walkUp;
             this.lastDirection = 'Up';
-            this.size.x = 48;
-            this.offset.x = 0;
             this.vel.x = 0;
             this.vel.y = -this.velocity;
 
@@ -75,8 +73,6 @@ EntityPlayer = ig.Entity.extend({
         } else if (ig.input.state('down')) {
             this.currentAnim = this.anims.walkDown;
             this.lastDirection = 'Down';
-            this.size.x = 48;
-            this.offset.x = 0;
             this.vel.x = 0;
             this.vel.y = this.velocity;
 
@@ -88,15 +84,11 @@ EntityPlayer = ig.Entity.extend({
         } else if (ig.input.state('right')) {
             this.currentAnim = this.anims.walkRight;
             this.lastDirection = 'Right';
-            this.size.x = 29;
-            this.offset.x = 10;
             this.vel.x = this.velocity;
             this.vel.y = 0;
         } else if (ig.input.state('left')) {
             this.currentAnim = this.anims.walkLeft;
             this.lastDirection = 'Left';
-            this.size.x = 29;
-            this.offset.x = 10;
             this.vel.x = -this.velocity;
             this.vel.y = 0;
         } else {
@@ -105,12 +97,6 @@ EntityPlayer = ig.Entity.extend({
             this.currentAnim = this.anims['idle' + this.lastDirection];
             this.vel.x = 0;
             this.vel.y = 0;
-
-            // Reset the hitbox only if we're not facing right or left
-            if (['right', 'left'].indexOf(this.lastDirection) !== -1) {
-                this.size.x = 48;
-                this.offset.x = 0;
-            }
         }
     }
 });
