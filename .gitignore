@@ -12,4 +12,9 @@ easeljs/build/output/
 easeljs/build/tmp/
 /.idea/
 *TMP*
+
+### Other ###
+
 impactjs/lib/impact
+impactjs/weltmeister.html
+impactjs/tools/
