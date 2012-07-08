@@ -7,9 +7,6 @@ ig.module(
 .defines(function () {
 
 EntityMenu = EntityStaticEntity.extend({
-//    _wmDrawBox: true,
-//    _wmScalable: true,
-
     size: {x: 128, y: 80},
     collides: ig.Entity.COLLIDES.NEVER,
 
