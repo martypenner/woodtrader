@@ -115,10 +115,6 @@ ig.module(
     'game.entities.menu',
     'game.entities.menu-trigger',
     'game.entities.menu-hide-trigger',
-    'game.entities.menu-hide-up-trigger',
-    'game.entities.menu-hide-down-trigger',
-    'game.entities.menu-hide-right-trigger',
-    'game.entities.menu-hide-left-trigger',
     'game.entities.enemy'
 )
 .defines(function(){
