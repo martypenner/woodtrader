@@ -130,8 +130,6 @@ ig.module(
     'game.entities.player',
     'game.entities.stall',
     'game.entities.menu',
-    'game.entities.menu-trigger',
-    'game.entities.menu-hide-trigger',
     'game.entities.enemy'
 )
 .defines(function () {
