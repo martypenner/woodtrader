@@ -22,7 +22,7 @@ EntityPlayer = ig.Entity.extend({
     animSheet: new ig.AnimationSheet('media/hero.png', 48, 64),
 
     // Last direction the player was facing, so the correct idle animation is shown
-    lastDirection: 'Down',
+    facing: 'Down',
 
     // Default moving velocity
     velocity: 200,
@@ -68,7 +68,7 @@ EntityPlayer = ig.Entity.extend({
         // If moving sideways, change the hit box dimensions and offset
         if (ig.input.state('up')) {
             this.currentAnim = this.anims.walkUp;
-            this.lastDirection = 'Up';
+            this.facing = 'Up';
             this.vel.x = 0;
             this.vel.y = -this.velocity;
 
@@ -77,9 +77,10 @@ EntityPlayer = ig.Entity.extend({
             } else if (ig.input.state('left')) {
                 this.vel.x = -this.velocity;
             }
+
         } else if (ig.input.state('down')) {
             this.currentAnim = this.anims.walkDown;
-            this.lastDirection = 'Down';
+            this.facing = 'Down';
             this.vel.x = 0;
             this.vel.y = this.velocity;
 
@@ -88,20 +89,23 @@ EntityPlayer = ig.Entity.extend({
             } else if (ig.input.state('left')) {
                 this.vel.x = -this.velocity;
             }
-        } else if (ig.input.state('right')) {
-            this.currentAnim = this.anims.walkRight;
-            this.lastDirection = 'Right';
-            this.vel.x = this.velocity;
-            this.vel.y = 0;
+
         } else if (ig.input.state('left')) {
             this.currentAnim = this.anims.walkLeft;
-            this.lastDirection = 'Left';
+            this.facing = 'Left';
             this.vel.x = -this.velocity;
             this.vel.y = 0;
+
+        } else if (ig.input.state('right')) {
+            this.currentAnim = this.anims.walkRight;
+            this.facing = 'Right';
+            this.vel.x = this.velocity;
+            this.vel.y = 0;
+
         } else {
             // Stop all movement and show the correct idle animation for
             // the direction the player is facing
-            this.currentAnim = this.anims['idle' + this.lastDirection];
+            this.currentAnim = this.anims['idle' + this.facing];
             this.vel.x = 0;
             this.vel.y = 0;
         }
