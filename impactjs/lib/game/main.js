@@ -14,6 +14,9 @@ SystemManager = {
     /* Methods */
 
     init: function () {
+        this.player.idle.onload = this.player.walk.onload = this.handleImageLoad;
+        this.player.idle.onerror = this.player.walk.onerror = this.handleImageLoad;
+
         this.player.idle.src = "media/player/idle.png";
         this.player.walk.src = "media/player/run.png";
 
@@ -22,6 +25,18 @@ SystemManager = {
         this.stage.autoClear = false;
 
         this.startGame();
+    },
+
+    handleImageLoad: function () {
+        if (this.numImagesLoaded == 2) {
+            this.startGame();
+        }
+
+        this.numImagesLoaded++;
+    },
+
+    handleImageError: function (e) {
+        console.log('Problem loading image: ' + e.target.src);
     },
 
     startGame: function () {
@@ -108,8 +123,10 @@ ig.module(
     'impact.game',
     'impact.font',
 
+    // Levels
     'game.levels.market1',
 
+    // Entities
     'game.entities.player',
     'game.entities.stall',
     'game.entities.menu',
@@ -117,7 +134,7 @@ ig.module(
     'game.entities.menu-hide-trigger',
     'game.entities.enemy'
 )
-.defines(function(){
+.defines(function () {
 
 WoodTrader = ig.Game.extend({
 
@@ -125,6 +142,9 @@ WoodTrader = ig.Game.extend({
     font: new ig.Font('media/04b03.font.png'),
 
     init: function() {
+        // Load EaselJS
+//        SystemManager.init();
+
         // Bind keys
         ig.input.bind(ig.KEY.LEFT_ARROW, 'left');
         ig.input.bind(ig.KEY.RIGHT_ARROW, 'right');
@@ -145,9 +165,9 @@ WoodTrader = ig.Game.extend({
 
     draw: function() {
         // Clear out the main canvas since Easel will have drawn things that Impact doesn’t know about
-        var ctx = ig.system.context;
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.clearRect(0, 0, ig.system.width, ig.system.height);
+//        var ctx = ig.system.context;
+//        ctx.setTransform(1, 0, 0, 1, 0, 0);
+//        ctx.clearRect(0, 0, ig.system.width, ig.system.height);
 
         // Call draw on the parent object to make sure that all draws to the canvas are finalized
         // before telling Easel to update
@@ -155,7 +175,7 @@ WoodTrader = ig.Game.extend({
 
         // Calls tick on our SystemManager object, which is the main EaselJS code
         // that handles drawing the non-gameplay elements
-        SystemManager.tick();
+//        SystemManager.tick();
     }
 });
 
