@@ -126,6 +126,9 @@ ig.module(
     // Debug
     'impact.debug.debug',
 
+    // Plugins
+    'plugins.impact-splash-loader',
+
     // Levels
     'game.levels.market1',
 
@@ -172,7 +175,6 @@ WoodTrader = ig.Game.extend({
     },
 
     update: function() {
-
         // Update all entities and backgroundMaps
         this.parent();
 
@@ -196,6 +198,6 @@ WoodTrader = ig.Game.extend({
 });
 
 // Start the game
-ig.main('#canvas', WoodTrader, 60, 1024, 768, 1);
+ig.main('#canvas', WoodTrader, 60, 1024, 768, 1, ig.ImpactSplashLoader);
 
 });
