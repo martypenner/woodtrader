@@ -1,28 +1,9 @@
 .DS_Store
+.idea/
 
-### EaselJS ###
+### ImpactJS ###
 
-#ignore .git folder for yuidoc project, otherwise it will be treated as a submodule
-easeljs/build/tools/yuidoc/.git/*
-
-#ignore compiled python files
-*.pyc
-
-easeljs/build/output/
-easeljs/build/tmp/
-/.idea/
-*TMP*
-
-### Other ###
-
-impactjs/lib/impact
-impactjs/weltmeister.html
-impactjs/tools/
-impactjs/lib/weltmeister/
-TheRenderEngine
-threejs
-playn
-assets
-craftyjs
-easeljs
-original assets
+lib/impact
+lib/weltmeister
+weltmeister.html
+tools
