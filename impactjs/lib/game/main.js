@@ -134,6 +134,20 @@ ig.module(
 )
 .defines(function () {
 
+window.addEventListener("blur", function () {
+    if (ig.system) {
+        ig.music.stop();
+        ig.system.stopRunLoop();
+    }
+}, false);
+
+window.addEventListener("focus", function () {
+    if (ig.system) {
+        ig.music.play();
+        ig.system.startRunLoop();
+    }
+}, false);
+
 WoodTrader = ig.Game.extend({
 
     // Load a font
