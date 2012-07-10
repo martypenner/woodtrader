@@ -123,6 +123,9 @@ ig.module(
     'impact.game',
     'impact.font',
 
+    // Debug
+    'impact.debug.debug',
+
     // Levels
     'game.levels.market1',
 
@@ -169,6 +172,7 @@ WoodTrader = ig.Game.extend({
     },
 
     update: function() {
+
         // Update all entities and backgroundMaps
         this.parent();
 
