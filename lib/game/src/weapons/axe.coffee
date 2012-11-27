@@ -35,5 +35,5 @@ ig.module(
 
         check: (other) ->
             if other.entityType == 'tree'
-                other.chopDown()
+                other.receiveDamage 3.5, @
                 @kill()

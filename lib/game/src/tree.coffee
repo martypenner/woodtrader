@@ -31,7 +31,7 @@ ig.module(
             # Call the parent constructor
             @parent x, y, settings
 
-        # Skeleton function to chop a tree down
-        chopDown: ->
+        # Play a sound effect when killing this tree
+        kill: ->
             @treeFall.play()
-            @kill()
+            @parent()
