@@ -3,6 +3,7 @@
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
 @import "compass/css3/transition";
+@import "compass/css3/filter";
 @import "compass/css3/images";
 
 /*** Global ***/
@@ -22,18 +23,13 @@ html, body {
 
 #canvas {
     @include single-box-shadow(rgba(255, 255, 255, 0.5), $default-box-shadow-h-offset, $default-box-shadow-v-offset, 10px, 5px);
+    @include filter(grayscale(0) blur(0));
+    @include single-transition(-webkit-filter, 0.3s, ease-in-out);
     border: 1px solid #555;
+
+    &.inactive { @include filter(grayscale(1) blur(5px)); }
 }
 
 /*** Classes ***/
 
 p.chromeframe { padding: 15px; }
-
-.active {
-    -webkit-filter: grayscale(0) blur(0);
-    @include single-transition(-webkit-filter 0.1s ease-in-out);
-}
-.inactive {
-    -webkit-filter: grayscale(1) blur(5px);
-    @include single-transition(-webkit-filter 0.1s ease-in-out);
-}

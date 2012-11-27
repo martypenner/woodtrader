@@ -35,13 +35,13 @@ ig.module(
         if ig.system
             ig.music.pause()
             ig.system.stopRunLoop()
-            canvasElem.removeClass('active').addClass('inactive')
+            canvasElem.addClass('inactive')
 
     $(window).focus ->
         if ig.system
             ig.music.play()
             ig.system.startRunLoop()
-            canvasElem.removeClass('inactive').addClass('active')
+            canvasElem.removeClass('inactive')
 
     WoodTraderGame = ig.Game.extend
 
