@@ -68,14 +68,14 @@ ig.module(
 
             # Spawn the inventory at 0, 0 and store it, but only if we're not in Weltmeister
             if not ig.global.wm
-                @inventory = ig.game.spawnEntity(EntityInventory)
+                @inventory = ig.game.spawnEntity EntityInventory
 
                 # Set inventory position to the center of the screen
                 @inventory.pos.x = (ig.system.width - @inventory.size.x) / 2
                 @inventory.pos.y = (ig.system.height - @inventory.size.y) / 2
 
             # Call the parent constructor
-            @parent(x, y, settings)
+            @parent x, y, settings
 
             # Store the player entity globally for performance and ease of reference
 
