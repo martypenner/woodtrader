@@ -17,8 +17,9 @@ html, body {
 /*** Zones/Regions ***/
 
 #container {
-    width:  960px;
-    margin: 0 auto;
+    width:    960px;
+    margin:   0 auto;
+    position: relative;
 }
 
 #canvas {
@@ -29,6 +30,15 @@ html, body {
 
     &.inactive { @include filter(grayscale(1) blur(5px)); }
 }
+
+/*** GUI (buttons, text, etc.) ***/
+
+#gui {
+    /* Hide all GUI elements */
+    * { display: none; }
+}
+
+#paused { position: absolute; }
 
 /*** Classes ***/
 

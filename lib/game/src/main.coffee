@@ -1,5 +1,12 @@
 WoodTraderGame = {}
-canvasElem = $('#canvas')
+
+# Cache all jQuery elements
+elems =
+    window: $(window)
+    canvas: $('#canvas')
+    guiContainer: $('#gui')
+    gui:
+        paused: $('#paused')
 
 ig.module(
     'game.main'
@@ -32,24 +39,39 @@ ig.module(
 .defines ->
 
     $(window).blur ->
-        if ig.system
-            ig.music.pause()
-            ig.system.stopRunLoop()
-            canvasElem.addClass('inactive')
+        return if not ig.system
+        
+        ig.game.pause.play()
+        ig.music.pause()
+        ig.system.stopRunLoop()
+        elems.canvas.addClass('inactive')
+
+        # Center the paused text and show it
+        elems.gui.paused.css(
+            top: (elems.canvas.height() - elems.gui.paused.height()) / 2
+            left: (elems.canvas.width() - elems.gui.paused.width()) / 2
+        ).show()
 
     $(window).focus ->
-        if ig.system
-            ig.music.play()
-            ig.system.startRunLoop()
-            canvasElem.removeClass('inactive')
+        return if not ig.system
+
+        ig.game.unpause.play()
+        ig.music.play()
+        ig.system.startRunLoop()
+        elems.canvas.removeClass('inactive')
+        elems.gui.paused.hide()
 
     WoodTraderGame = ig.Game.extend
 
         # Load a font
-        font: new ig.Font('media/fonts/04b03.font.png')
+        font: new ig.Font 'media/fonts/04b03.font.png'
 
         # Preload music
-        bgtune: new ig.Sound('media/music/01-A-Night-Of-Dizzy-Spells.*')
+        bgtune: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
+
+        # Preload sounds
+        pause: new ig.Sound 'media/sounds/pause.*'
+        unpause: new ig.Sound 'media/sounds/unpause.*'
 
         # Globally store the player entity for performance and ease of reference
         player: null
