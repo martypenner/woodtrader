@@ -6,8 +6,8 @@ ig.module(
     'game.entities.player'
 )
 .requires(
-    'game.entities.common.base-entity',
-    'game.entities.inventory',
+    'game.entities.common.base-entity'
+    'game.entities.inventory'
     'game.entities.weapons.axe'
 )
 .defines ->
