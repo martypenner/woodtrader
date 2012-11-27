@@ -30,7 +30,6 @@ ig.module(
 
         update: ->
             @kill() if @lifeTimer.delta() > 0.2
-
             @parent()
 
         check: (other) ->

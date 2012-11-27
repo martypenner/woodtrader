@@ -20,6 +20,8 @@ ig.module(
         type: ig.Entity.TYPE.A
         animSheet: new ig.AnimationSheet 'media/environment/tree.png', 220, 211
 
+        # Preload sounds
+        treeStrike: new ig.Sound 'media/sounds/tree-strike.*'
         treeFall: new ig.Sound 'media/sounds/tree-fall.*'
 
         entityType: 'tree'
@@ -30,6 +32,13 @@ ig.module(
 
             # Call the parent constructor
             @parent x, y, settings
+
+
+        receiveDamage: (amount, from) ->
+            # Play the fx for hitting a tree if the tree won't die from this hit (prevents
+            # multiple fx playing simultaneously)
+            @treeStrike.play() if @health - amount > 0
+            @parent amount, from
 
         # Play a sound effect when killing this tree
         kill: ->
