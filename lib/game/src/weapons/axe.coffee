@@ -17,7 +17,7 @@ ig.module(
         type: ig.Entity.TYPE.B
         checkAgainst: ig.Entity.TYPE.A
 
-        swingAxe: new ig.Sound 'media/sounds/axe-hit.*'
+        swingAxe: new ig.Sound 'media/sounds/axe-swing.*'
 
         lifeTimer: null
 
