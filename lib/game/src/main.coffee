@@ -1,4 +1,5 @@
 WoodTraderGame = {}
+canvasElem = $('#canvas')
 
 ig.module(
     'game.main'
@@ -34,11 +35,13 @@ ig.module(
         if ig.system
             ig.music.pause()
             ig.system.stopRunLoop()
+            canvasElem.removeClass('active').addClass('inactive')
 
     $(window).focus ->
         if ig.system
             ig.music.play()
             ig.system.startRunLoop()
+            canvasElem.removeClass('inactive').addClass('active')
 
     WoodTraderGame = ig.Game.extend
 
@@ -141,4 +144,4 @@ ig.module(
                     console.log 'clicked'
 
     # Start the game
-    ig.main '#canvas', WoodTraderGame, 60, 1024, 768, 1, ig.ImpactSplashLoader
+    ig.main '#canvas', WoodTraderGame, 60, 960, 720, 1, ig.ImpactSplashLoader

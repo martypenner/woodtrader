@@ -1,19 +1,41 @@
+/*** Imports ***/
+/*** Global ***/
+/* line 10, main.scss */
 html, body {
-  margin: 0;
-  padding: 0;
   color: #fff;
   background-color: #000;
-  font-family: helvetica, arial, sans-serif;
-  font-size: 12pt; }
+  font-family: helvetica, arial, sans-serif; }
 
+/*** Zones/Regions ***/
+/* line 18, main.scss */
+#container {
+  width: 960px;
+  margin: 0 auto; }
+
+/* line 23, main.scss */
 #canvas {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
+  -webkit-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
+  -moz-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
   border: 1px solid #555; }
 
+/*** Classes ***/
+/* line 30, main.scss */
 p.chromeframe {
   padding: 15px; }
+
+/* line 32, main.scss */
+.active {
+  -webkit-filter: grayscale(0) blur(0);
+  -webkit-transition: -webkit-filter 0.1s ease-in-out, 1s;
+  -moz-transition: -webkit-filter 0.1s ease-in-out, 1s;
+  -o-transition: -webkit-filter 0.1s ease-in-out, 1s;
+  transition: -webkit-filter 0.1s ease-in-out, 1s; }
+
+/* line 36, main.scss */
+.inactive {
+  -webkit-filter: grayscale(1) blur(5px);
+  -webkit-transition: -webkit-filter 0.1s ease-in-out, 1s;
+  -moz-transition: -webkit-filter 0.1s ease-in-out, 1s;
+  -o-transition: -webkit-filter 0.1s ease-in-out, 1s;
+  transition: -webkit-filter 0.1s ease-in-out, 1s; }
