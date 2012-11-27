@@ -38,28 +38,8 @@ ig.module(
 )
 .defines ->
 
-    $(window).blur ->
-        return if not ig.system
-        
-        ig.game.pause.play()
-        ig.music.pause()
-        ig.system.stopRunLoop()
-        elems.canvas.addClass('inactive')
-
-        # Center the paused text and show it
-        elems.gui.paused.css(
-            top: (elems.canvas.height() - elems.gui.paused.height()) / 2
-            left: (elems.canvas.width() - elems.gui.paused.width()) / 2
-        ).show()
-
-    $(window).focus ->
-        return if not ig.system
-
-        ig.game.unpause.play()
-        ig.music.play()
-        ig.system.startRunLoop()
-        elems.canvas.removeClass('inactive')
-        elems.gui.paused.hide()
+    $(window).blur -> ig.game.pause()
+    $(window).focus -> ig.game.unpause()
 
     WoodTraderGame = ig.Game.extend
 
@@ -70,8 +50,8 @@ ig.module(
         bgtune: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
 
         # Preload sounds
-        pause: new ig.Sound 'media/sounds/pause.*'
-        unpause: new ig.Sound 'media/sounds/unpause.*'
+        pauseFx: new ig.Sound 'media/sounds/pause.*'
+        unpauseFx: new ig.Sound 'media/sounds/unpause.*'
 
         # Globally store the player entity for performance and ease of reference
         player: null
@@ -91,6 +71,8 @@ ig.module(
             ig.input.bind ig.KEY.SPACE, 'attack'
             ig.input.bind ig.KEY.ENTER, 'confirm'
             ig.input.bind ig.KEY.I, 'inventory'
+            ig.input.bind ig.KEY.P, 'pause'
+            ig.input.bind ig.KEY.ESC, 'pause'
 
             # Bind mouse events
             ig.input.bind ig.KEY.MOUSE1, 'confirm'
@@ -164,6 +146,29 @@ ig.module(
                         tileSize: 47
                 click: ->
                     console.log 'clicked'
+
+        pause: ->
+            return if not ig.system or not ig.system?.running
+
+            @pauseFx.play()
+            ig.music.pause()
+            ig.system.stopRunLoop()
+            elems.canvas.addClass('inactive')
+
+            # Center the paused text and show it
+            elems.gui.paused.css(
+                top: (elems.canvas.height() - elems.gui.paused.height()) / 2
+                left: (elems.canvas.width() - elems.gui.paused.width()) / 2
+            ).show()
+
+        unpause: ->
+            return if not ig.system or ig.system?.running
+
+            @unpauseFx.play()
+            ig.music.play()
+            ig.system.startRunLoop()
+            elems.canvas.removeClass('inactive')
+            elems.gui.paused.hide()
 
     # Start the game
     ig.main '#canvas', WoodTraderGame, 60, 960, 720, 1, ig.ImpactSplashLoader
