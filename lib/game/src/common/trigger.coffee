@@ -69,7 +69,7 @@ ig.module(
                         ent = ig.game.getEntityByName target
 
                         if ent && typeof(ent[functionName]) == 'function'
-                            ent[functionName](other, this)
+                            ent[functionName](other, @)
 
                 if @wait == -1
                     @canFire = false
