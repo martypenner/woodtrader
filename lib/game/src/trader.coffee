@@ -97,8 +97,8 @@ ig.module(
 
             if @playerIsNear
                 if @dialogVisible
-                    @dialogs[0].draw @pos.x - 2, @pos.y - 80
+                    @dialogs[0].draw @pos.x - ig.game.screen.x - 2, @pos.y - ig.game.screen.y - 80
                 else
-                    @bubble.draw @pos.x - 2, @pos.y - 43
+                    @bubble.draw @pos.x - ig.game.screen.x - 2, @pos.y - ig.game.screen.y - 43
 
             @parent()
