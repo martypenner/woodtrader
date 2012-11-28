@@ -99,7 +99,7 @@ ig.module(
             @parent()
 
             # Screen follows the player
-            if @player
+            if @player?
                 x = @player.pos.x - ig.system.width / 2
                 y = @player.pos.y - ig.system.height / 2
                 mainBgMap = ig.game.getMapByName 'grass'

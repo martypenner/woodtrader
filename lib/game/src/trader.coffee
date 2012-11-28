@@ -80,14 +80,19 @@ ig.module(
             # Call the parent constructor
             @parent x, y, settings
 
+        update: ->
+            @playerIsNear = @distanceTo(ig.game.player) < 110
+
+            @parent()
+
         draw: ->
             # Set the inventory's visibility based on whether we're in Weltmeister and the
             # player is trying to access the inventory
             if not ig.global.wm
                 @inventory.isVisible = ig.gui.show = @state == @states.IN_INVENTORY
 
-            if ig.input.pressed 'confirm'
-                @dialogVisible = @playerIsNear && not @dialogVisible
+            if ig.input.pressed('confirm') and @playerIsNear
+                @dialogVisible = @playerIsNear and not @dialogVisible
                 ig.game.player.movementAllowed = not @dialogVisible
 
             if @playerIsNear

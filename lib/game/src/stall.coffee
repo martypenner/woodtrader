@@ -28,9 +28,3 @@ ig.module(
             # Store the associated trader entity
             trader = ig.game.getEntityByName @trader
             @trader = if trader? then trader else null
-
-        update: ->
-            if @trader
-                @trader.playerIsNear = @distanceTo(ig.game.player) < 110
-
-            @parent()
