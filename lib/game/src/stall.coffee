@@ -18,7 +18,8 @@ ig.module(
             y: 20
         animSheet: new ig.AnimationSheet 'media/buildings/stall.png', 128, 80
 
-        # The associated trader entity
+        # The associated trader entity. It gets set manually in Weltmeister, and can be null
+        # (a stall doesn't have to "own" a trader)
         trader: null
 
         init: (x, y, settings) ->
