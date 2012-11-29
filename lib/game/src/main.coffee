@@ -41,8 +41,7 @@ ig.module(
     $(window).blur -> ig.game.pause()
     $(window).focus -> ig.game.unpause()
 
-    WoodTraderGame = ig.Game.extend
-
+    MainGame = ig.Game.extend
         # Load a font
         font: new ig.Font 'media/fonts/04b03.font.png'
 
@@ -170,5 +169,24 @@ ig.module(
             elems.canvas.removeClass('inactive')
             elems.gui.paused.hide()
 
+    StartScreen = ig.Game.extend
+        instructText: new ig.Font 'media/fonts/04b03.font.png'
+
+        init: ->
+            ig.input.bind ig.KEY.SPACE, 'start'
+
+        update: ->
+            @parent()
+
+            if ig.input.pressed('start')
+                ig.system.setGame MainGame
+
+        draw: ->
+            @parent()
+
+            x = ig.system.width / 2
+            y = ig.system.height - 10
+            @instructText.draw('Press Space To Start', x, y, ig.Font.ALIGN.CENTER)
+
     # Start the game
-    ig.main '#canvas', WoodTraderGame, 60, 960, 720, 1, ig.ImpactSplashLoader
+    ig.main '#canvas', StartScreen, 60, 960, 720, 1, ig.ImpactSplashLoader
