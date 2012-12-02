@@ -38,9 +38,6 @@ ig.module(
 )
 .defines ->
 
-    $(window).blur -> ig.game.pause()
-    $(window).focus -> ig.game.unpause()
-
     MainGame = ig.Game.extend
         # Load a font
         font: new ig.Font 'media/fonts/04b03.font.png'
@@ -61,6 +58,10 @@ ig.module(
         init: ->
             # Load EaselJS
 #            SystemManager.init()
+
+            # Set up auto-pausing and unpausing
+            $(window).blur -> ig.game.pause()
+            $(window).focus -> ig.game.unpause()
 
             # Bind keys
             ig.input.bind ig.KEY.LEFT_ARROW, 'left'
