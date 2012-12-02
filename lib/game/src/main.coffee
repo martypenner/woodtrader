@@ -33,6 +33,8 @@ ig.module(
     'game.entities.player'
     'game.entities.trader'
     'game.entities.stall'
+    'game.entities.tree'
+    'game.entities.log'
     'game.entities.menu'
     'game.entities.enemy'
 )

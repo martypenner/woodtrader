@@ -6,10 +6,10 @@ ig.module(
     'game.entities.tree'
 )
 .requires(
-    'game.entities.common.base-entity'
+    'game.entities.common.static-entity'
 )
 .defines ->
-    EntityTree = EntityBaseEntity.extend
+    EntityTree = EntityStaticEntity.extend
         size:
             x: 85
             y: 55
@@ -24,6 +24,9 @@ ig.module(
         treeStrike: new ig.Sound 'media/sounds/tree-strike.*'
         treeFall: new ig.Sound 'media/sounds/tree-fall.*'
 
+        # Percent chance the tree will drop a log after being cut down
+        dropLogChance: 30
+
         flashTimer: null
         flashCurrent: 0
         flashTime: 0.1
@@ -36,13 +39,6 @@ ig.module(
 
         entityType: 'tree'
 
-        init: (x, y, settings) ->
-            # Add animations for the animation sheet
-            @addAnim 'idle', 1000, [0]
-
-            # Call the parent constructor
-            @parent x, y, settings
-
         receiveDamage: (amount, from) ->
             @flash()
 
@@ -54,6 +50,10 @@ ig.module(
         # Play a sound effect when killing this tree
         kill: ->
             @treeFall.play()
+
+            if (Math.random() * 100) < @dropLogChance
+                ig.game.spawnEntity EntityLog, @pos.x, @pos.y
+
             @parent()
 
         flash: ->
