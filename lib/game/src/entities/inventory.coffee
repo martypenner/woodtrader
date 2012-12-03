@@ -21,3 +21,15 @@ ig.module(
         addItem: (item) ->
             @items[item] ?= 0
             @items[item] += 1
+
+        removeItem: (item) ->
+            @items[item] = 0
+
+        increaseItem: (item) ->
+            @items[item] ?= 0
+            @items[item] += 1
+
+        decreaseItem: (item) ->
+            @items[item] ?= 0
+            @items[item] -= 1
+            @items[item] = if @items[item] == -1 then 0 else @items[item]
