@@ -25,4 +25,5 @@ ig.module(
         check: (other) ->
             if other.name == 'player'
                 @pickup.play()
+                other.inventory.addItem 'log'
                 @kill()
