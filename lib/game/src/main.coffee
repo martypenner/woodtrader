@@ -173,4 +173,4 @@ ig.module(
             @instructText.draw('Press Space To Start', x, y, ig.Font.ALIGN.CENTER)
 
     # Start the game
-    ig.main '#canvas', StartScreen, 60, 960, 720, 1, ig.ImpactSplashLoader
+    ig.main '#canvas', StartScreen, 60, elems.canvas.width(), elems.canvas.height(), 1, ig.ImpactSplashLoader

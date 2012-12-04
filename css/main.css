@@ -737,20 +737,20 @@ textarea {
   h3 {
     page-break-after: avoid; } }
 /*** Global ***/
-/* line 14, main.scss */
+/* line 13, main.scss */
 html, body {
   color: #fff;
   background-color: #000;
   font-family: helvetica, arial, sans-serif; }
 
 /*** Zones/Regions ***/
-/* line 22, main.scss */
+/* line 21, main.scss */
 #container {
   width: 960px;
   margin: 0 auto;
   position: relative; }
 
-/* line 28, main.scss */
+/* line 27, main.scss */
 #canvas {
   -webkit-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
   -moz-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
@@ -762,26 +762,28 @@ html, body {
   -moz-transition: -webkit-filter 0.3s ease-in-out;
   -o-transition: -webkit-filter 0.3s ease-in-out;
   transition: -webkit-filter 0.3s ease-in-out;
-  border: 1px solid #555; }
-  /* line 34, main.scss */
+  border: 1px solid #555;
+  width: 960px;
+  height: 720px; }
+  /* line 35, main.scss */
   #canvas.inactive {
     -webkit-filter: grayscale(1) blur(5px);
     -moz-filter: grayscale(1) blur(5px);
     filter: grayscale(1) blur(5px); }
 
 /*** GUI (buttons, text, etc.) ***/
-/* line 39, main.scss */
+/* line 40, main.scss */
 #gui {
   /* Hide all GUI elements */ }
-  /* line 41, main.scss */
+  /* line 42, main.scss */
   #gui * {
     display: none; }
 
-/* line 44, main.scss */
+/* line 45, main.scss */
 #paused {
   position: absolute; }
 
 /*** Classes ***/
-/* line 48, main.scss */
+/* line 49, main.scss */
 p.chromeframe {
   padding: 15px; }

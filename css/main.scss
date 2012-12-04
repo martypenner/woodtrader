@@ -5,7 +5,6 @@
 @import "compass/css3/transition";
 @import "compass/css3/filter";
 @import "compass/css3/images";
-
 @import "normalize";
 @import "core";
 
@@ -30,6 +29,8 @@ html, body {
     @include filter(grayscale(0) blur(0));
     @include single-transition(-webkit-filter, 0.3s, ease-in-out);
     border: 1px solid #555;
+    width:  960px;
+    height: 720px;
 
     &.inactive { @include filter(grayscale(1) blur(5px)); }
 }
