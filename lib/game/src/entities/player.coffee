@@ -36,7 +36,7 @@ ig.module(
         facing: 'Down'
 
         # Default moving velocity
-        velocity: 150
+        velocity: 300
 
         # Maximum velocity
         maxVel:
@@ -195,3 +195,15 @@ ig.module(
 
             return pos
 
+        loadLevelTrigger: (other, trigger) ->
+            ig.music.stop()
+
+            desiredLevel = switch trigger.toLevel
+                when 'Market1'
+                    ig.music.play 'market'
+                    LevelMarket1
+                when 'Forest1'
+                    ig.music.play 'forest'
+                    LevelForest1
+            
+            ig.game.director.jumpTo desiredLevel

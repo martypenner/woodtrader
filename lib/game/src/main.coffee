@@ -24,6 +24,7 @@ ig.module(
 
     # Levels
     'game.levels.market1'
+    'game.levels.forest1'
 
     # Entities
     'game.entities.common.base-entity'
@@ -44,7 +45,8 @@ ig.module(
         font: new ig.Font 'media/fonts/04b03.font.png'
 
         # Preload music
-        bgtune: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
+        bgMusicMarket: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
+        bgMusicForest: new ig.Sound 'media/music/02-Underclocked-Underunderclocked-Mix.*'
 
         # Preload sounds
         pauseFx: new ig.Sound 'media/sounds/pause.*'
@@ -78,16 +80,19 @@ ig.module(
             # Bind mouse events
             ig.input.bind ig.KEY.MOUSE1, 'confirm'
 
-            @director = new ig.Director @, LevelMarket1
+            @director = new ig.Director @, [LevelMarket1, LevelForest1]
+
+            # Decrease the volume so the sound effects are heard better
+            ig.music.loop = true
+            ig.music.volume = 0.5
 
             # Add and play music
-            ig.music.add @bgtune
-            # Decrease the volume so the sound effects are heard better
-            ig.music.volume = 0.5
-            ig.music.play()
+            ig.music.add @bgMusicMarket, 'market'
+            ig.music.add @bgMusicForest, 'forest'
+            ig.music.play 'market'
 
-            # Load level 1
-            @director.loadLevel 0
+            # Load level 1 (level 0 in geek-speak)
+            @director.jumpTo LevelMarket1
 
         update: ->
             # Update all entities and backgroundMaps

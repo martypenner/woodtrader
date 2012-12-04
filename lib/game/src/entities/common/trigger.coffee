@@ -65,7 +65,7 @@ ig.module(
 
             if @canFire && @waitTimer.delta() >= 0
                 if typeof(@target) == 'object'
-                    for target in @target
+                    for index, target of @target
                         ent = ig.game.getEntityByName target
 
                         if ent && typeof(ent[functionName]) == 'function'
