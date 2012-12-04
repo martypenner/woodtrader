@@ -25,7 +25,7 @@ ig.module(
         treeFall: new ig.Sound 'media/sounds/tree-fall.*'
 
         # Percent chance the tree will drop a log after being cut down
-        dropLogChance: 30
+        dropLogChance: 75
 
         flashTimer: null
         flashCurrent: 0
