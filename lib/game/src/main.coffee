@@ -20,7 +20,6 @@ ig.module(
 
     # Plugins
     'plugins.impact-splash-loader'
-    'plugins.gui'
     'plugins.director.director'
 
     # Levels
@@ -79,9 +78,6 @@ ig.module(
             # Bind mouse events
             ig.input.bind ig.KEY.MOUSE1, 'confirm'
 
-            # Disable the GUI by default
-            ig.gui.show = false
-
             @director = new ig.Director @, LevelMarket1
 
             # Add and play music
@@ -92,9 +88,6 @@ ig.module(
 
             # Load level 1
             @director.loadLevel 0
-
-            # Add GUI elements
-            @addGui()
 
         update: ->
             # Update all entities and backgroundMaps
@@ -125,29 +118,9 @@ ig.module(
             # before telling Easel to update
             @parent()
 
-            ig.gui.draw() if ig.gui.show
-
             # Calls tick on our SystemManager object, which is the main EaselJS code
             # that handles drawing the non-gameplay elements
 #            SystemManager.tick()
-
-        addGui: ->
-            ig.gui.element.add
-                name: 'inventory'
-                group: 'inventory'
-                size:
-                    x: 47
-                    y: 47
-                pos:
-                    x: 0
-                    y: ig.system.height - 47
-                state:
-                    normal:
-                        image: new ig.Image 'media/joystick.png'
-                        tile: 2
-                        tileSize: 47
-                click: ->
-                    console.log 'clicked'
 
         pause: ->
             return if not ig.system or not ig.system?.running

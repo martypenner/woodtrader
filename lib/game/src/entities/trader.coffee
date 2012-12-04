@@ -89,7 +89,7 @@ ig.module(
             # Set the inventory's visibility based on whether we're in Weltmeister and the
             # player is trying to access the inventory
             if not ig.global.wm
-                @inventory.isVisible = ig.gui.show = @state == @states.IN_INVENTORY
+                @inventory.isVisible = @state == @states.IN_INVENTORY
 
             if ig.input.pressed('confirm') and @playerIsNear
                 @dialogVisible = @playerIsNear and not @dialogVisible
