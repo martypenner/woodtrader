@@ -94,7 +94,7 @@ ig.module(
             ig.music.add @bgMusicForest, 'forest'
             ig.music.play 'market'
 
-            # Load level 1 (level 0 in geek-speak)
+            # Load the first level
             @director.jumpTo LevelMarket1
 
         update: ->
