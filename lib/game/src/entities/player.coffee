@@ -196,6 +196,8 @@ ig.module(
             return pos
 
         loadLevelTrigger: (other, trigger) ->
+            return if not trigger.toLevel?
+
             ig.music.stop()
 
             desiredLevel = switch trigger.toLevel
@@ -205,5 +207,5 @@ ig.module(
                 when 'Forest1'
                     ig.music.play 'forest'
                     LevelForest1
-
+            
             ig.game.director.jumpTo desiredLevel
