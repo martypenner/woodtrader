@@ -78,7 +78,6 @@ ig.module(
             @parent x, y, settings
 
             # Store the player entity globally for performance and ease of reference
-
             ig.game.player = @
 
         update: ->
@@ -207,5 +206,5 @@ ig.module(
                 when 'Forest1'
                     ig.music.play 'forest'
                     LevelForest1
-            
+
             ig.game.director.jumpTo desiredLevel
