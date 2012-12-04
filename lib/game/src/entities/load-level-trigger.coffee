@@ -10,5 +10,10 @@ ig.module(
 )
 .defines ->
     EntityLoadLevelTrigger = EntityTrigger.extend
+        ignoreFirstHit: false
+        hitCount: 0
+
         check: (other) ->
-            @parent other, 'loadLevel'
+            @hitCount++
+            @parent(other, 'loadLevel') if (@ignoreFirstHit and @hitCount == 2) or not @ignoreFirstHit
+
