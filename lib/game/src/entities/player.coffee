@@ -177,7 +177,7 @@ ig.module(
                 @vel.y = 0
 
         getWeaponCoordinates: (weaponEntity) ->
-            pos = {x: 0, y: 0}
+            pos = x: 0, y: 0
 
             switch @facing
                 when 'Up'
@@ -205,5 +205,5 @@ ig.module(
                 when 'Forest1'
                     ig.music.play 'forest'
                     LevelForest1
-            
+
             ig.game.director.jumpTo desiredLevel

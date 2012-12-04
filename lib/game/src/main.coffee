@@ -58,6 +58,9 @@ ig.module(
         # Store a global level director
         director: null
 
+        # Sort all entities by their Y position
+        sortBy: ig.Game.SORT.POS_Y
+
         init: ->
             # Load EaselJS
 #            SystemManager.init()
