@@ -33,7 +33,7 @@ ig.module(
         entityType: 'tree'
 
         init: (x, y, settings) ->
-            @flasher = new Flasher(@)
+            @flasher = new Flasher @
             @parent x, y, settings
 
         receiveDamage: (amount, from) ->
@@ -53,10 +53,6 @@ ig.module(
 
             @parent()
 
-        update: ->
-            @parent()
-
         draw: ->
             @flasher.draw()
-
             @parent()

@@ -25,10 +25,12 @@ ig.module(
             @flashReceiver = flashReceiver
 
         startFlash: ->
-            @flashTimer = new ig.Timer @flashTime
+            @flashTimer ?= new ig.Timer @flashTime
 
         draw: ->
-            if @flashTimer?.delta() < 0
+            return if not @flashTimer?
+
+            if @flashTimer.delta() < 0
                 @flashReceiver.currentAnim.alpha = @flashTimer.delta().map(
                     0
                     -@flashTimer.target

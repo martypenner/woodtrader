@@ -7,6 +7,7 @@ ig.module(
 )
 .requires(
     'game.entities.common.static-entity'
+    'game.common.flasher'
 )
 .defines ->
     EntityLog = EntityStaticEntity.extend
@@ -24,16 +25,27 @@ ig.module(
         lifeTimer: null
         lifeTime: 10
 
+        flasher: null
+        flashStartTime: 9
+
         init: (x, y, settings) ->
             # Set up a timer for this log to be alive
             @lifeTimer = new ig.Timer()
 
+            @flasher = new Flasher(@)
+
             @parent x, y, settings
 
         update: ->
+            # Start flashing the log if the lifetimer is near the end
+            @flasher.startFlash() if @lifeTimer.delta() > @flashStartTime
             # If the lifetime of this log has passed, kill it
             @kill() if @lifeTimer.delta() > @lifeTime
 
+            @parent()
+
+        draw: ->
+            @flasher.draw()
             @parent()
 
         # Pickup the log if the player runs into it
