@@ -1,0 +1,49 @@
+/*** Imports ***/
+
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/transition";
+@import "compass/css3/filter";
+@import "compass/css3/images";
+@import "normalize";
+@import "core";
+
+/*** Global ***/
+
+html, body {
+    color:            #fff;
+    background-color: #000;
+    font-family:      helvetica, arial, sans-serif;
+}
+
+/*** Zones/Regions ***/
+
+#container {
+    width:    960px;
+    margin:   0 auto;
+    position: relative;
+}
+
+#canvas {
+    @include single-box-shadow(rgba(255, 255, 255, 0.5), $default-box-shadow-h-offset, $default-box-shadow-v-offset, 10px, 5px);
+    @include filter(grayscale(0) blur(0));
+    @include single-transition(-webkit-filter, 0.3s, ease-in-out);
+    border: 1px solid #555;
+    width:  960px;
+    height: 720px;
+
+    &.inactive { @include filter(grayscale(1) blur(5px)); }
+}
+
+/*** GUI (buttons, text, etc.) ***/
+
+#gui {
+    /* Hide all GUI elements */
+    * { display: none; }
+}
+
+#paused { position: absolute; }
+
+/*** Classes ***/
+
+p.chromeframe { padding: 15px; }
