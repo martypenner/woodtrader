@@ -21,6 +21,21 @@ ig.module(
         # Preload sounds
         pickup: new ig.Sound 'media/sounds/pickup.*'
 
+        lifeTimer: null
+        lifeTime: 10
+
+        init: (x, y, settings) ->
+            # Set up a timer for this log to be alive
+            @lifeTimer = new ig.Timer()
+
+            @parent x, y, settings
+
+        update: ->
+            # If the lifetime of this log has passed, kill it
+            @kill() if @lifeTimer.delta() > @lifeTime
+
+            @parent()
+
         # Pickup the log if the player runs into it
         check: (other) ->
             if other.name == 'player'
