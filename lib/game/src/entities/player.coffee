@@ -20,7 +20,7 @@ ig.module(
             y: 6
         collides: ig.Entity.COLLIDES.ACTIVE
         type: ig.Entity.TYPE.A
-        animSheet: new ig.AnimationSheet 'media/characters/hero_v2.png', 14, 19
+        animSheet: new ig.AnimationSheet 'media/characters/player_v1.png', 22, 36
 
         name: 'player'
 
@@ -53,15 +53,15 @@ ig.module(
         inventory: null
 
         init: (x, y, settings) ->
-            # Add animations for the animation sheet
+            # Add animations to the animation sheet
             @addAnim 'idleDown', @idleAnimSpeed, [0]
-            @addAnim 'idleUp', @idleAnimSpeed, [3]
-            @addAnim 'idleRight', @idleAnimSpeed, [6]
-            @addAnim 'idleLeft', @idleAnimSpeed, [9]
+            @addAnim 'idleUp', @idleAnimSpeed, [10]
+            @addAnim 'idleRight', @idleAnimSpeed, [20]
+            @addAnim 'idleLeft', @idleAnimSpeed, [30]
             @addAnim 'walkDown', @movingAnimSpeed, [0, 1, 0, 2]
-            @addAnim 'walkUp', @movingAnimSpeed, [3, 4, 3, 5]
-            @addAnim 'walkRight', @movingAnimSpeed, [6, 7, 6, 8]
-            @addAnim 'walkLeft', @movingAnimSpeed, [9, 10, 9, 11]
+            @addAnim 'walkUp', @movingAnimSpeed, [10, 11, 10, 12]
+            @addAnim 'walkRight', @movingAnimSpeed, [20, 21, 20, 22]
+            @addAnim 'walkLeft', @movingAnimSpeed, [30, 31, 30, 32]
 
             # Set the entity's default state
             @state = @states.DEFAULT
