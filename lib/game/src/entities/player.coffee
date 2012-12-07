@@ -13,11 +13,11 @@ ig.module(
 .defines ->
     EntityPlayer = EntityBaseEntity.extend
         size:
-            x: 10
-            y: 13
+            x: 15
+            y: 20
         offset:
-            x: 2
-            y: 6
+            x: 4
+            y: 15
         collides: ig.Entity.COLLIDES.ACTIVE
         type: ig.Entity.TYPE.A
         animSheet: new ig.AnimationSheet 'media/characters/player_v1.png', 22, 36
