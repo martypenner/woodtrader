@@ -65,9 +65,8 @@ ig.module(
             # Load EaselJS
 #            SystemManager.init()
 
-            # Set up auto-pausing and unpausing
+            # Auto-pause the game when leaving the browser tab
             $(window).blur -> ig.game.pause()
-            $(window).focus -> ig.game.unpause()
 
             # Toggle pausing the game if "P" or "ESC" are pressed. I do this by binding a keyup handler
             # to the document instead of listening for keypresses in ImpactJS because pausing stops
