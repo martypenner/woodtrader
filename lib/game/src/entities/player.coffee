@@ -101,13 +101,15 @@ ig.module(
             @parent()
 
         handleButtons: ->
+            # Don't move the player if he's not allowed to (e.g. we're in a menu)
+            if not @movementAllowed
+                @reset()
+                return
+
             ### Inventory/Menu Navigation ###
 
             if ig.input.pressed 'inventory'
-                # Cancel all movement and animation
-                @currentAnim = @anims['idle' + @facing]
-                @vel.x = 0
-                @vel.y = 0
+                @reset()
 
                 # If we're already in the inventory menu, close the menu
                 if @state == @states.IN_INVENTORY
@@ -121,9 +123,6 @@ ig.module(
             # If trying to access inventory, use the keys to navigate the menu
     #        if @state == @states.IN_INVENTORY
                 # Check for keypresses to navigate
-
-            # Don't move the player if he's not allowed to (e.g. we're in a menu)
-            return if not @movementAllowed
 
             ### Weapons ###
 
@@ -193,3 +192,9 @@ ig.module(
                     pos.y = @pos.y
 
             return pos
+
+        reset: ->
+            # Cancel all movement and animation
+            @currentAnim = @anims['idle' + @facing]
+            @vel.x = 0
+            @vel.y = 0
