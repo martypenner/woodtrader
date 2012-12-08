@@ -40,6 +40,17 @@ ig.module(
 )
 .defines ->
 
+    # Override the loadLevel function to make the canvas lighter or darker, depending on which level
+    # we're loading
+    ig.Game.inject
+        loadLevel: (level) ->
+            @parent(level)
+
+            if level is LevelMarket1
+                elems.canvas.removeClass 'dark'
+            else if level is LevelForest1
+                elems.canvas.addClass 'dark'
+
     MainGame = ig.Game.extend
         # Load a font
         font: new ig.Font 'media/fonts/04b03.font.png'
@@ -65,9 +76,15 @@ ig.module(
             # Load EaselJS
 #            SystemManager.init()
 
-            # Set up auto-pausing and unpausing
+            # Auto-pause the game when leaving the browser tab
             $(window).blur -> ig.game.pause()
-            $(window).focus -> ig.game.unpause()
+
+            # Toggle pausing the game if "P" or "ESC" are pressed. I do this by binding a keyup handler
+            # to the document instead of listening for keypresses in ImpactJS because pausing stops
+            # the game run loop, meaning when it's paused, it no longers pays attention to keypresses.
+            # In other words, pausing would work, but unpausing wouldn't.
+            $(document).keyup (e) ->
+                ig.game.togglePause() if e.which in [27, 80]
 
             # Bind keys
             ig.input.bind ig.KEY.LEFT_ARROW, 'left'
@@ -77,8 +94,6 @@ ig.module(
             ig.input.bind ig.KEY.SPACE, 'attack'
             ig.input.bind ig.KEY.ENTER, 'confirm'
             ig.input.bind ig.KEY.I, 'inventory'
-            ig.input.bind ig.KEY.P, 'pause'
-            ig.input.bind ig.KEY.ESC, 'pause'
 
             # Bind mouse events
             ig.input.bind ig.KEY.MOUSE1, 'confirm'
@@ -152,6 +167,12 @@ ig.module(
             ig.system.startRunLoop()
             elems.canvas.removeClass('inactive')
             elems.gui.paused.hide()
+
+        togglePause: ->
+            if ig.system?.running
+                ig.game.pause()
+            else
+                ig.game.unpause()
 
     StartScreen = ig.Game.extend
         instructText: new ig.Font 'media/fonts/04b03.font.png'

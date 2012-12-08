@@ -33,6 +33,7 @@ html, body {
     height: 720px;
 
     &.inactive { @include filter(grayscale(1) blur(5px)); }
+    &.dark { opacity: 0.5; }
 }
 
 /*** GUI (buttons, text, etc.) ***/

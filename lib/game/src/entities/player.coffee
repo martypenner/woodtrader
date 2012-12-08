@@ -13,14 +13,14 @@ ig.module(
 .defines ->
     EntityPlayer = EntityBaseEntity.extend
         size:
-            x: 10
-            y: 13
+            x: 15
+            y: 20
         offset:
-            x: 2
-            y: 6
+            x: 4
+            y: 15
         collides: ig.Entity.COLLIDES.ACTIVE
         type: ig.Entity.TYPE.A
-        animSheet: new ig.AnimationSheet 'media/characters/hero_v2.png', 14, 19
+        animSheet: new ig.AnimationSheet 'media/characters/player_v1.png', 22, 36
 
         name: 'player'
 
@@ -53,15 +53,15 @@ ig.module(
         inventory: null
 
         init: (x, y, settings) ->
-            # Add animations for the animation sheet
+            # Add animations to the animation sheet
             @addAnim 'idleDown', @idleAnimSpeed, [0]
-            @addAnim 'idleUp', @idleAnimSpeed, [3]
-            @addAnim 'idleRight', @idleAnimSpeed, [6]
-            @addAnim 'idleLeft', @idleAnimSpeed, [9]
+            @addAnim 'idleUp', @idleAnimSpeed, [10]
+            @addAnim 'idleRight', @idleAnimSpeed, [20]
+            @addAnim 'idleLeft', @idleAnimSpeed, [30]
             @addAnim 'walkDown', @movingAnimSpeed, [0, 1, 0, 2]
-            @addAnim 'walkUp', @movingAnimSpeed, [3, 4, 3, 5]
-            @addAnim 'walkRight', @movingAnimSpeed, [6, 7, 6, 8]
-            @addAnim 'walkLeft', @movingAnimSpeed, [9, 10, 9, 11]
+            @addAnim 'walkUp', @movingAnimSpeed, [10, 11, 10, 12]
+            @addAnim 'walkRight', @movingAnimSpeed, [20, 21, 20, 22]
+            @addAnim 'walkLeft', @movingAnimSpeed, [30, 31, 30, 32]
 
             # Set the entity's default state
             @state = @states.DEFAULT
@@ -101,13 +101,15 @@ ig.module(
             @parent()
 
         handleButtons: ->
+            # Don't move the player if he's not allowed to (e.g. we're in a menu)
+            if not @movementAllowed
+                @reset()
+                return
+
             ### Inventory/Menu Navigation ###
 
             if ig.input.pressed 'inventory'
-                # Cancel all movement and animation
-                @currentAnim = @anims['idle' + @facing]
-                @vel.x = 0
-                @vel.y = 0
+                @reset()
 
                 # If we're already in the inventory menu, close the menu
                 if @state == @states.IN_INVENTORY
@@ -121,9 +123,6 @@ ig.module(
             # If trying to access inventory, use the keys to navigate the menu
     #        if @state == @states.IN_INVENTORY
                 # Check for keypresses to navigate
-
-            # Don't move the player if he's not allowed to (e.g. we're in a menu)
-            return if not @movementAllowed
 
             ### Weapons ###
 
@@ -193,3 +192,9 @@ ig.module(
                     pos.y = @pos.y
 
             return pos
+
+        reset: ->
+            # Cancel all movement and animation
+            @currentAnim = @anims['idle' + @facing]
+            @vel.x = 0
+            @vel.y = 0

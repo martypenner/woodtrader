@@ -770,20 +770,23 @@ html, body {
     -webkit-filter: grayscale(1) blur(5px);
     -moz-filter: grayscale(1) blur(5px);
     filter: grayscale(1) blur(5px); }
+  /* line 36, main.scss */
+  #canvas.dark {
+    opacity: 0.5; }
 
 /*** GUI (buttons, text, etc.) ***/
-/* line 40, main.scss */
+/* line 41, main.scss */
 #gui {
   /* Hide all GUI elements */ }
-  /* line 42, main.scss */
+  /* line 43, main.scss */
   #gui * {
     display: none; }
 
-/* line 45, main.scss */
+/* line 46, main.scss */
 #paused {
   position: absolute; }
 
 /*** Classes ***/
-/* line 49, main.scss */
+/* line 50, main.scss */
 p.chromeframe {
   padding: 15px; }
