@@ -12,12 +12,12 @@ ig.module(
 .defines ->
     EntityLog = EntityStaticEntity.extend
         size:
-            x: 54
-            y: 19
+            x: 25
+            y: 25
         type: ig.Entity.TYPE.A
         checkAgainst: ig.Entity.TYPE.A
         collides: ig.Entity.COLLIDES.NEVER
-        animSheet: new ig.AnimationSheet 'media/environment/log.png', 54, 19
+        animSheet: new ig.AnimationSheet 'media/environment/log.png', 36, 25
 
         # Preload sounds
         pickup: new ig.Sound 'media/sounds/pickup.*'
@@ -29,6 +29,8 @@ ig.module(
         flashStartTime: 9
 
         init: (x, y, settings) ->
+            @addAnim 'idle', 0.2, [0, 1, 2, 3, 2, 1, 0]
+
             # Set up a timer for this log to be alive
             @lifeTimer = new ig.Timer()
 
