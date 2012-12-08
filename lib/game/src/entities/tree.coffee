@@ -30,6 +30,8 @@ ig.module(
 
         flasher: null
 
+        particleOffset: 20
+
         entityType: 'tree'
 
         init: (x, y, settings) ->
@@ -38,6 +40,23 @@ ig.module(
 
         receiveDamage: (amount, from) ->
             @flasher.startFlash()
+
+            # Spawn a wood chip explosion where the player is
+            player = ig.game.player
+            switch ig.game.player.facing
+                when 'Up'
+                    x = player.pos.x
+                    y = player.pos.y - @particleOffset
+                when 'Down'
+                    x = player.pos.x
+                    y = player.pos.y + player.size.y + @particleOffset
+                when 'Right'
+                    x = player.pos.x + player.size.x + @particleOffset
+                    y = player.pos.y
+                when 'Left'
+                    x = player.pos.x - @particleOffset
+                    y = player.pos.y
+            ig.game.spawnEntity EntityParticleGenerator, x, y
 
             # Play the fx for hitting a tree if the tree won't die from this hit (prevents
             # multiple fx playing simultaneously)

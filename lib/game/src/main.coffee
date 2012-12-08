@@ -28,6 +28,8 @@ ig.module(
 
     # Entities
     'game.entities.common.base-entity'
+    'game.entities.common.particle-generator'
+    'game.entities.common.particle'
     'game.entities.inventory'
     'game.entities.inventory-item'
     'game.entities.player'
