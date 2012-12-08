@@ -40,6 +40,17 @@ ig.module(
 )
 .defines ->
 
+    # Override the loadLevel function to make the canvas lighter or darker, depending on which level
+    # we're loading
+    ig.Game.inject
+        loadLevel: (level) ->
+            @parent(level)
+
+            if level is LevelMarket1
+                elems.canvas.removeClass 'dark'
+            else if level is LevelForest1
+                elems.canvas.addClass 'dark'
+
     MainGame = ig.Game.extend
         # Load a font
         font: new ig.Font 'media/fonts/04b03.font.png'
