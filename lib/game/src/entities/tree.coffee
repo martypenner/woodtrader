@@ -49,7 +49,8 @@ ig.module(
             @treeFall.play()
 
             if (Math.random() * 100) < @dropLogChance
-                ig.game.spawnEntity EntityLog, @pos.x, @pos.y
+                # Spawn a log in the approx. center of the tree
+                ig.game.spawnEntity EntityLog, (@size.x - 25) / 2 + @pos.x, (@size.x - 25) / 2 + @pos.y - 10
 
             @parent()
 
