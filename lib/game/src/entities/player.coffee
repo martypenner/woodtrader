@@ -13,14 +13,14 @@ ig.module(
 .defines ->
     EntityPlayer = EntityBaseEntity.extend
         size:
-            x: 15
+            x: 16
             y: 20
         offset:
-            x: 4
-            y: 15
+            x: 17
+            y: 22
         collides: ig.Entity.COLLIDES.ACTIVE
         type: ig.Entity.TYPE.A
-        animSheet: new ig.AnimationSheet 'media/characters/player_v1.png', 22, 36
+        animSheet: new ig.AnimationSheet 'media/characters/player_v1.png', 50, 50
 
         name: 'player'
 
@@ -44,7 +44,7 @@ ig.module(
             y: 500
 
         idleAnimSpeed: 1
-        movingAnimSpeed: 0.06
+        movingAnimSpeed: 0.1
 
         # Whether the entity is allowed to move
         movementAllowed: true
@@ -55,13 +55,13 @@ ig.module(
         init: (x, y, settings) ->
             # Add animations to the animation sheet
             @addAnim 'idleDown', @idleAnimSpeed, [0]
-            @addAnim 'idleUp', @idleAnimSpeed, [10]
-            @addAnim 'idleRight', @idleAnimSpeed, [20]
-            @addAnim 'idleLeft', @idleAnimSpeed, [30]
+            @addAnim 'idleUp', @idleAnimSpeed, [7]
+            @addAnim 'idleRight', @idleAnimSpeed, [14]
+            @addAnim 'idleLeft', @idleAnimSpeed, [21]
             @addAnim 'walkDown', @movingAnimSpeed, [0, 1, 0, 2]
-            @addAnim 'walkUp', @movingAnimSpeed, [10, 11, 10, 12]
-            @addAnim 'walkRight', @movingAnimSpeed, [20, 21, 20, 22]
-            @addAnim 'walkLeft', @movingAnimSpeed, [30, 31, 30, 32]
+            @addAnim 'walkUp', @movingAnimSpeed, [7, 8, 7, 9]
+            @addAnim 'walkRight', @movingAnimSpeed, [14, 15, 14, 16]
+            @addAnim 'walkLeft', @movingAnimSpeed, [21, 22, 21, 23]
 
             # Set the entity's default state
             @state = @states.DEFAULT
