@@ -52,6 +52,10 @@ ig.module(
         # Store the inventory entity for the player
         inventory: null
 
+        # Timer for the axe animation
+        axeTimer: null
+        axeTime: 0.1
+
         init: (x, y, settings) ->
             # Add animations to the animation sheet
             @addAnim 'idleDown', @idleAnimSpeed, [0]
@@ -62,6 +66,10 @@ ig.module(
             @addAnim 'walkUp', @movingAnimSpeed, [7, 8, 7, 9]
             @addAnim 'walkRight', @movingAnimSpeed, [14, 15, 14, 16]
             @addAnim 'walkLeft', @movingAnimSpeed, [21, 22, 21, 23]
+            @addAnim 'axeDown', @movingAnimSpeed, [3]
+            @addAnim 'axeUp', @movingAnimSpeed, [4]
+            @addAnim 'axeRight', @movingAnimSpeed, [5]
+            @addAnim 'axeLeft', @movingAnimSpeed, [6]
 
             # Set the entity's default state
             @state = @states.DEFAULT
@@ -127,6 +135,8 @@ ig.module(
             ### Weapons ###
 
             if ig.input.pressed 'attack'
+                @currentAnim = @anims['axe' + @facing]
+                @axeTimer = new ig.Timer()
                 axe = ig.game.spawnEntity 'EntityAxe'
                 axe.pos = @getWeaponCoordinates axe
 
@@ -170,9 +180,8 @@ ig.module(
             else
                 # Stop all movement and show the correct idle animation for
                 # the direction the player is facing
-                @currentAnim = @anims['idle' + @facing]
-                @vel.x = 0
-                @vel.y = 0
+                @reset() if not ig.input.pressed 'attack'
+
 
         getWeaponCoordinates: (weaponEntity) ->
             pos = x: 0, y: 0
@@ -194,7 +203,12 @@ ig.module(
             return pos
 
         reset: ->
-            # Cancel all movement and animation
-            @currentAnim = @anims['idle' + @facing]
+            # Reset the player idle animation if we're not showing the axe swing
+            if not @axeTimer?
+                @currentAnim = @anims['idle' + @facing]
+            else
+                @axeTimer = null if @axeTimer.delta() > @axeTime
+
+            # Cancel all movement
             @vel.x = 0
             @vel.y = 0
