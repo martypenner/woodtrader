@@ -30,6 +30,8 @@ ig.module(
     'game.entities.common.base-entity'
     'game.entities.common.particle-generator'
     'game.entities.common.particle'
+    'game.entities.weapons.axe'
+    'game.entities.weapons.fireball'
     'game.entities.inventory'
     'game.entities.inventory-item'
     'game.entities.player'
@@ -46,7 +48,13 @@ ig.module(
     # we're loading
     ig.Game.inject
         loadLevel: (level) ->
-            @parent(level)
+#            if @loadLevelCount? and @loadLevelCount == 0
+#                @screenFadeIn = new ig.ScreenFader(fade: 'out', speed: 0.5)
+#            else
+#                @screenFadeOut = new ig.ScreenFader(fade: 'out', speed: 0.5)
+#                @screenFadeIn = new ig.ScreenFader(fade: 'in', speed: 0.5)
+
+            @parent level
 
             if level is LevelMarket1
                 elems.canvas.removeClass 'dark'
@@ -94,6 +102,7 @@ ig.module(
             ig.input.bind ig.KEY.UP_ARROW, 'up'
             ig.input.bind ig.KEY.DOWN_ARROW, 'down'
             ig.input.bind ig.KEY.SPACE, 'attack'
+            ig.input.bind ig.KEY.TAB, 'switchWeapon'
             ig.input.bind ig.KEY.ENTER, 'confirm'
             ig.input.bind ig.KEY.I, 'inventory'
 

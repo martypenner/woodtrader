@@ -9,6 +9,7 @@ ig.module(
     'game.entities.common.base-entity'
     'game.entities.inventory'
     'game.entities.weapons.axe'
+    'game.entities.weapons.fireball'
 )
 .defines ->
     EntityPlayer = EntityBaseEntity.extend
@@ -52,9 +53,13 @@ ig.module(
         # Store the inventory entity for the player
         inventory: null
 
-        # Timer for the axe animation
-        axeTimer: null
-        axeTime: 0.1
+        # Timer for the weapon animations
+        weaponAnimTimer: null
+        weaponAnimTime: 0.1
+
+        # Store the currently equipped weapon
+        weapon: 'axe'
+        weapons: ['axe', 'fireball']
 
         init: (x, y, settings) ->
             # Add animations to the animation sheet
@@ -70,6 +75,10 @@ ig.module(
             @addAnim 'axeUp', @movingAnimSpeed, [4]
             @addAnim 'axeRight', @movingAnimSpeed, [5]
             @addAnim 'axeLeft', @movingAnimSpeed, [6]
+            @addAnim 'fireballDown', @movingAnimSpeed, [10]
+            @addAnim 'fireballUp', @movingAnimSpeed, [11]
+            @addAnim 'fireballRight', @movingAnimSpeed, [12]
+            @addAnim 'fireballLeft', @movingAnimSpeed, [13]
 
             # Set the entity's default state
             @state = @states.DEFAULT
@@ -114,6 +123,8 @@ ig.module(
                 @reset()
                 return
 
+            @switchWeapon() if ig.input.pressed 'switchWeapon'
+
             ### Inventory/Menu Navigation ###
 
             if ig.input.pressed 'inventory'
@@ -135,10 +146,16 @@ ig.module(
             ### Weapons ###
 
             if ig.input.pressed 'attack'
-                @currentAnim = @anims['axe' + @facing]
-                @axeTimer = new ig.Timer()
-                axe = ig.game.spawnEntity 'EntityAxe'
-                axe.pos = @getWeaponCoordinates axe
+                @currentAnim = @anims[@weapon + @facing]
+                @weaponAnimTimer = new ig.Timer()
+
+                weapon = ig.game.spawnEntity(
+                    'Entity' + @weapon.substring(0, 1).toUpperCase() + @weapon.substring(1),
+                    0,
+                    0,
+                    facing: @facing
+                )
+                weapon.pos = @getWeaponCoordinates weapon
 
             ### Movement ###
 
@@ -202,12 +219,18 @@ ig.module(
 
             return pos
 
+        switchWeapon: ->
+            weapon = @weapons.indexOf(@weapon) + 1
+            weapon = 0 if weapon > @weapons.length - 1
+
+            @weapon = @weapons[weapon]
+
         reset: ->
             # Reset the player idle animation if we're not showing the axe swing
-            if not @axeTimer?
+            if not @weaponAnimTimer?
                 @currentAnim = @anims['idle' + @facing]
             else
-                @axeTimer = null if @axeTimer.delta() > @axeTime
+                @weaponAnimTimer = null if @weaponAnimTimer.delta() > @weaponAnimTime
 
             # Cancel all movement
             @vel.x = 0
