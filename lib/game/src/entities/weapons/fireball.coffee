@@ -25,6 +25,9 @@ ig.module(
 
         idleAnimSpeed: 0.06
 
+        lifeTimer: null
+        lifeTime: 5
+
         init: (x, y, settings) ->
             # Add animations to the animation sheet
             @addAnim 'up', @idleAnimSpeed, [0]
@@ -34,6 +37,8 @@ ig.module(
 
             # Call the parent constructor
             @parent x, y, settings
+
+            @lifeTimer = new ig.Timer()
 
             # Make the fireball face the right direction
             @currentAnim = @anims[@facing.toLowerCase()]
@@ -46,7 +51,8 @@ ig.module(
                 else if @facing is 'Left' then x: -@maxVel.x, y: 0
 
         update: ->
-            @kill() if @vel.x is 0 and @vel.y is 0
+            # If the fireball stops moving, or its life timer is up, kill it
+            @kill() if (@vel.x is 0 and @vel.y is 0) or @lifeTimer.delta() > @lifeTime
 
             # Call the parent to get physics and movement updates
             @parent()
