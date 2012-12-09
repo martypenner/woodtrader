@@ -48,14 +48,8 @@ ig.module(
     # we're loading
     ig.Game.inject
         loadLevel: (level) ->
-#            if @loadLevelCount? and @loadLevelCount == 0
-#                @screenFadeIn = new ig.ScreenFader(fade: 'out', speed: 0.5)
-#            else
-#                @screenFadeOut = new ig.ScreenFader(fade: 'out', speed: 0.5)
-#                @screenFadeIn = new ig.ScreenFader(fade: 'in', speed: 0.5)
-
             @parent level
-
+            
             if level is LevelMarket1
                 elems.canvas.removeClass 'dark'
             else if level is LevelForest1
