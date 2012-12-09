@@ -49,7 +49,7 @@ ig.module(
     ig.Game.inject
         loadLevel: (level) ->
             @parent level
-            
+
             if level is LevelMarket1
                 elems.canvas.removeClass 'dark'
             else if level is LevelForest1
@@ -57,7 +57,7 @@ ig.module(
 
     MainGame = ig.Game.extend
         # Load a font
-        font: new ig.Font 'media/fonts/04b03.font.png'
+        info: new ig.Font 'media/fonts/04b03.font.png'
 
         # Preload music
         bgMusicMarket: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
@@ -145,6 +145,8 @@ ig.module(
             # Call draw on the parent object to make sure that all draws to the canvas are finalized
             # before telling Easel to update
             @parent()
+
+            @info.draw(@player.activeWeapon, 20, 20, ig.Font.ALIGN.LEFT)
 
             # Calls tick on our SystemManager object, which is the main EaselJS code
             # that handles drawing the non-gameplay elements

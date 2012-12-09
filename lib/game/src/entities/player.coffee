@@ -58,7 +58,7 @@ ig.module(
         weaponAnimTime: 0.1
 
         # Store the currently equipped weapon
-        weapon: 'axe'
+        activeWeapon: 'axe'
         weapons: ['axe', 'fireball']
 
         init: (x, y, settings) ->
@@ -146,11 +146,11 @@ ig.module(
             ### Weapons ###
 
             if ig.input.pressed 'attack'
-                @currentAnim = @anims[@weapon + @facing]
+                @currentAnim = @anims[@activeWeapon + @facing]
                 @weaponAnimTimer = new ig.Timer()
 
                 weapon = ig.game.spawnEntity(
-                    'Entity' + @weapon.substring(0, 1).toUpperCase() + @weapon.substring(1),
+                    'Entity' + @activeWeapon.substring(0, 1).toUpperCase() + @activeWeapon.substring(1),
                     0,
                     0,
                     facing: @facing
@@ -220,10 +220,10 @@ ig.module(
             return pos
 
         switchWeapon: ->
-            weapon = @weapons.indexOf(@weapon) + 1
+            weapon = @weapons.indexOf(@activeWeapon) + 1
             weapon = 0 if weapon > @weapons.length - 1
 
-            @weapon = @weapons[weapon]
+            @activeWeapon = @weapons[weapon]
 
         reset: ->
             # Reset the player idle animation if we're not showing the axe swing
