@@ -14,6 +14,8 @@ ig.module(
         hitCount: 0
 
         check: (other) ->
+            return if other.name isnt 'player'
+            
             @hitCount++
             @parent(other, 'loadLevel') if (@ignoreFirstHit and @hitCount == 2) or not @ignoreFirstHit
 
