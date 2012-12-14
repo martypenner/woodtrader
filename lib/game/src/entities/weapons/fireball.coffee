@@ -18,6 +18,8 @@ ig.module(
         checkAgainst: ig.Entity.TYPE.BOTH
         animSheet: new ig.AnimationSheet 'media/characters/fireball.png', 11, 11
 
+        use: new ig.Sound 'media/sounds/fireball-cast.*'
+
         # Maximum velocity
         maxVel:
             x: 400
@@ -39,6 +41,7 @@ ig.module(
             @parent x, y, settings
 
             @lifeTimer = new ig.Timer()
+            @use.play()
 
             # Make the fireball face the right direction
             @currentAnim = @anims[@facing.toLowerCase()]
