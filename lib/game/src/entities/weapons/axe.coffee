@@ -17,13 +17,13 @@ ig.module(
         type: ig.Entity.TYPE.B
         checkAgainst: ig.Entity.TYPE.A
 
-        swingAxe: new ig.Sound 'media/sounds/axe-swing.*'
+        use: new ig.Sound 'media/sounds/axe-swing.*'
 
         lifeTimer: null
 
         init: (x, y, settings) ->
             @lifeTimer = new ig.Timer()
-            @swingAxe.play()
+            @use.play()
 
             # Call the parent constructor
             @parent x, y, settings
