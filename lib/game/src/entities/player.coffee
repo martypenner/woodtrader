@@ -65,8 +65,11 @@ ig.module(
 
         # MAGIC!!!
         mana: 50
-        manaRegeneratePause: 3
+        maxMana: 50
+        manaRegenerateDelay: 3
+        manaRegenerateDelayTimer: null
         manaRegenerateRate: 1
+        manaRegenerateTimer: null
         fireballManaCost: 5
 
         init: (x, y, settings) ->
@@ -91,6 +94,8 @@ ig.module(
             # Set the entity's default state
             @state = @states.DEFAULT
 
+            @manaRegenerateTimer = new ig.Timer()
+
             # Spawn the inventory at 0, 0 and store it, but only if we're not in Weltmeister
             if not ig.global.wm
                 @inventory = ig.game.spawnEntity EntityInventory
@@ -106,6 +111,12 @@ ig.module(
             ig.game.player = @
 
         update: ->
+            # Mana regeneration
+            if @manaRegenerateDelayTimer?.delta() > @manaRegenerateDelay
+                if @manaRegenerateTimer.delta() > 1
+                    @mana += @manaRegenerateRate if @mana + @manaRegenerateRate <= @maxMana
+                    @manaRegenerateTimer.reset()
+
             # Check for button presses and activate the appropriate animation
             @handleButtons()
 
@@ -159,7 +170,9 @@ ig.module(
 
                 futureMana = @mana - @fireballManaCost
                 if (@activeWeapon is 'fireball' and futureMana >= 0) or @activeWeapon is 'axe'
-                    @mana -= @fireballManaCost if @activeWeapon is 'fireball'
+                    if @activeWeapon is 'fireball'
+                        @mana -= @fireballManaCost
+                        @manaRegenerateDelayTimer = new ig.Timer()
 
                     weapon = ig.game.spawnEntity(
                         'Entity' + @activeWeapon.substring(0, 1).toUpperCase() + @activeWeapon.substring(1),
