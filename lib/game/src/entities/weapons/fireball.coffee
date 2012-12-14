@@ -61,7 +61,7 @@ ig.module(
             @parent()
 
         check: (other) ->
-            other.receiveDamage(50, @)
+            other.receiveDamage(5, @)
             @kill()
 
         handleMovementTrace: (res) ->
