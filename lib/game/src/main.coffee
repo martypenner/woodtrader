@@ -146,7 +146,8 @@ ig.module(
             # before telling Easel to update
             @parent()
 
-            @info.draw(@player.activeWeapon, 20, 20, ig.Font.ALIGN.LEFT)
+            hudString = 'Weapon: ' + @player.activeWeapon + "\nHealth: " + @player.health + "\nMana: " + @player.mana
+            @info.draw(hudString, 20, 20)
 
             # Calls tick on our SystemManager object, which is the main EaselJS code
             # that handles drawing the non-gameplay elements
