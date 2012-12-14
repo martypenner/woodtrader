@@ -61,6 +61,14 @@ ig.module(
         activeWeapon: 'axe'
         weapons: ['axe', 'fireball']
 
+        health: 50
+
+        # MAGIC!!!
+        mana: 50
+        manaRegeneratePause: 3
+        manaRegenerateRate: 1
+        fireballManaCost: 5
+
         init: (x, y, settings) ->
             # Add animations to the animation sheet
             @addAnim 'idleDown', @idleAnimSpeed, [0]
@@ -149,13 +157,17 @@ ig.module(
                 @currentAnim = @anims[@activeWeapon + @facing]
                 @weaponAnimTimer = new ig.Timer()
 
-                weapon = ig.game.spawnEntity(
-                    'Entity' + @activeWeapon.substring(0, 1).toUpperCase() + @activeWeapon.substring(1),
-                    0,
-                    0,
-                    facing: @facing
-                )
-                weapon.pos = @getWeaponCoordinates weapon
+                futureMana = @mana - @fireballManaCost
+                if (@activeWeapon is 'fireball' and futureMana >= 0) or @activeWeapon is 'axe'
+                    @mana -= @fireballManaCost if @activeWeapon is 'fireball'
+
+                    weapon = ig.game.spawnEntity(
+                        'Entity' + @activeWeapon.substring(0, 1).toUpperCase() + @activeWeapon.substring(1),
+                        0,
+                        0,
+                        facing: @facing
+                    )
+                    weapon.pos = @getWeaponCoordinates weapon
 
             ### Movement ###
 
