@@ -33,3 +33,6 @@ ig.module(
             @items[item] ?= 0
             @items[item] -= 1
             @items[item] = if @items[item] == -1 then 0 else @items[item]
+
+        getCount: (item) ->
+            @items[item] ?= 0
