@@ -50,10 +50,24 @@ ig.module(
         loadLevel: (level) ->
             @parent level
 
-            if level is LevelMarket1
-                elems.canvas.removeClass 'dark'
-            else if level is LevelForest1
-                elems.canvas.addClass 'dark'
+            levelName = switch level
+                when LevelMarket1
+                    elems.canvas.removeClass 'dark'
+                    'Market1'
+                when LevelForest1
+                    elems.canvas.addClass 'dark'
+                    'Forest1'
+
+            # Position the player according to where he/she entered the level, or the default starting
+            # position if the level was force-loaded. I add a bit of buffer room (30px) so the load level
+            # triggers don't get triggered repeatedly
+            if @playerLastPos?
+                {x, y} = @playerLastPos
+                x = if x > 30 then 30 else @mainBgMap.width * @mainBgMap.tilesize - 30
+            else
+                {x, y} = @playerStartingLevelPositions[levelName]
+
+            @spawnEntity EntityPlayer, x, y
 
     MainGame = ig.Game.extend
         # Load a font
@@ -70,11 +84,19 @@ ig.module(
         # Globally store the player entity for performance and ease of reference
         player: null
 
+        # The main background map, used in camera and player positioning calculations
+        mainBgMap: null
+
         # Store a global level director
         director: null
 
         # Sort all entities by their Y position
         sortBy: ig.Game.SORT.POS_Y
+
+        playerStartingLevelPositions:
+            Market1: x: 472, y: 292
+            Forest1: x: 242, y: 202
+        playerLastPos: null
 
         init: ->
             # Load EaselJS
@@ -121,13 +143,20 @@ ig.module(
             # Update all entities and backgroundMaps
             @parent()
 
-            # Screen follows the player
+            @mainBgMap ?= ig.game.getMapByName 'main'
+
             if @player?
+                # Store the player's last position so we can spawn him/her at an appropriate place
+                # when loading a new level. E.g. walking through a door on the right edge of the map
+                # and in the center of the screen should spawn the player at the left edge of the
+                # next level's map and in the center
+                @playerLastPos = @player.pos
+
+                # Screen follows the player
                 x = @player.pos.x - ig.system.width / 2
                 y = @player.pos.y - ig.system.height / 2
-                mainBgMap = ig.game.getMapByName 'grass'
-                mapWidth = mainBgMap.width * mainBgMap.tilesize - ig.system.width
-                mapHeight = mainBgMap.height * mainBgMap.tilesize - ig.system.height
+                mapWidth = @mainBgMap.width * @mainBgMap.tilesize - ig.system.width
+                mapHeight = @mainBgMap.height * @mainBgMap.tilesize - ig.system.height
 
                 # Ensure that the screen doesn't scroll past the map limits
                 x = if x < 0 then 0 else if x > mapWidth then mapWidth else x
