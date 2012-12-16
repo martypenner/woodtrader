@@ -111,7 +111,7 @@ ig.module(
             ig.game.player = @
 
         update: ->
-            # Mana regeneration
+            # Mana regeneration every second
             if @manaRegenerateDelayTimer?.delta() > @manaRegenerateDelay
                 if @manaRegenerateTimer.delta() > 1
                     @mana += @manaRegenerateRate if @mana + @manaRegenerateRate <= @maxMana
