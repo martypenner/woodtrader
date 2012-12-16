@@ -125,11 +125,6 @@ ig.module(
 
         draw: ->
             if not ig.global.wm
-                # If not in Weltmeister, make the player move behind or in front of nearby entities
-                # based on the position of its bottom corner
-                @zIndex = parseInt(@pos.y + @size.y)
-                ig.game.sortEntitiesDeferred()
-
                 # Set the inventory's visibility based on whether we're in Weltmeister and the
                 # player is trying to access the inventory
                 @inventory.isVisible = @state == @states.IN_INVENTORY
