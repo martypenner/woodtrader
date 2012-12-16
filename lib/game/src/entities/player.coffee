@@ -168,8 +168,8 @@ ig.module(
                 @currentAnim = @anims[@activeWeapon + @facing]
                 @weaponAnimTimer = new ig.Timer()
 
-                futureMana = @mana - @fireballManaCost
-                if (@activeWeapon is 'fireball' and futureMana >= 0) or @activeWeapon is 'axe'
+                manaAfterCast = @mana - @fireballManaCost
+                if (@activeWeapon is 'fireball' and manaAfterCast >= 0) or @activeWeapon is 'axe'
                     if @activeWeapon is 'fireball'
                         @mana -= @fireballManaCost
                         @manaRegenerateDelayTimer = new ig.Timer()
