@@ -72,6 +72,15 @@ ig.module(
         manaRegenerateTimer: null
         fireballManaCost: 5
 
+        # Properties to save between levels
+        persistedProperties: [
+            'health'
+            'mana'
+            'manaRegenerateDelayTimer'
+            'activeWeapon'
+            'inventory'
+        ]
+
         init: (x, y, settings) ->
             # Add animations to the animation sheet
             @addAnim 'idleDown', @idleAnimSpeed, [0]
@@ -95,6 +104,7 @@ ig.module(
             @state = @states.DEFAULT
 
             @manaRegenerateTimer = new ig.Timer()
+            @manaRegenerateDelayTimer = new ig.Timer()
 
             # Spawn the inventory at 0, 0 and store it, but only if we're not in Weltmeister
             if not ig.global.wm

@@ -48,6 +48,11 @@ ig.module(
     # we're loading
     ig.Game.inject
         loadLevel: (level) ->
+            persistedProperties = {}
+            if @player? and @player.persistedProperties?
+                for property in @player.persistedProperties
+                    persistedProperties[property] = @player[property]
+
             @parent level
 
             levelName = switch level
@@ -67,7 +72,7 @@ ig.module(
             else
                 {x, y} = @playerStartingLevelPositions[levelName]
 
-            @spawnEntity EntityPlayer, x, y
+            @spawnEntity EntityPlayer, x, y, persistedProperties
 
     MainGame = ig.Game.extend
         # Load a font
@@ -81,9 +86,6 @@ ig.module(
         pauseFx: new ig.Sound 'media/sounds/pause.*'
         unpauseFx: new ig.Sound 'media/sounds/unpause.*'
 
-        # Globally store the player entity for performance and ease of reference
-        player: null
-
         # The main background map, used in camera and player positioning calculations
         mainBgMap: null
 
@@ -94,6 +96,8 @@ ig.module(
         autoSort: true
         sortBy: ig.Game.SORT.POS_Y
 
+        # Globally store the player entity and various related data for performance and ease of reference
+        player: null
         playerStartingLevelPositions:
             Market1: x: 472, y: 292
             Forest1: x: 242, y: 202
