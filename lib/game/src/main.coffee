@@ -130,8 +130,6 @@ ig.module(
             # Bind mouse events
             ig.input.bind ig.KEY.MOUSE1, 'confirm'
 
-            @director = new ig.Director @, [LevelMarket1, LevelForest1]
-
             # Decrease the volume so the sound effects are heard better
             ig.music.loop = true
             ig.music.volume = 0.5
@@ -141,8 +139,8 @@ ig.module(
             ig.music.add @bgMusicForest, 'forest'
             ig.music.play 'market'
 
-            # Load the first level
-            @director.jumpTo LevelMarket1
+            # Setup the level director and auto-load the first level
+            @director = new ig.Director @, [LevelMarket1, LevelForest1]
 
         update: ->
             # Update all entities and backgroundMaps
