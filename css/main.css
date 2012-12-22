@@ -779,14 +779,18 @@ html, body {
 #gui {
   /* Hide all GUI elements */ }
   /* line 43, main.scss */
-  #gui * {
+  #gui > * {
     display: none; }
 
 /* line 46, main.scss */
-#paused {
+#gameName, #paused {
   position: absolute; }
 
-/*** Classes ***/
 /* line 50, main.scss */
+#gameName {
+  font-size: 30px; }
+
+/*** Classes ***/
+/* line 56, main.scss */
 p.chromeframe {
   padding: 15px; }

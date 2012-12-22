@@ -6,7 +6,15 @@ elems =
     canvas: $('#canvas')
     guiContainer: $('#gui')
     gui:
+        gameName: $('#gameName')
         paused: $('#paused')
+
+# Position various gui elements
+elems.gui.paused.add(elems.gui.gameName).each ->
+    $(@).css(
+        top: (elems.canvas.height() - $(@).height()) / 2
+        left: (elems.canvas.width() - $(@).width()) / 2
+    )
 
 ig.module(
     'game.main'
@@ -198,11 +206,8 @@ ig.module(
             ig.system.stopRunLoop()
             elems.canvas.addClass('inactive')
 
-            # Center the paused text and show it
-            elems.gui.paused.css(
-                top: (elems.canvas.height() - elems.gui.paused.height()) / 2
-                left: (elems.canvas.width() - elems.gui.paused.width()) / 2
-            ).show()
+            # Show the paused text
+            elems.gui.paused.show()
 
         unpause: ->
             return if not ig.system or ig.system?.running
@@ -229,6 +234,7 @@ ig.module(
             @parent()
 
             if ig.input.pressed('start')
+                elems.gui.gameName.remove()
                 ig.system.setGame MainGame
 
         draw: ->
@@ -237,6 +243,7 @@ ig.module(
             x = ig.system.width / 2
             y = ig.system.height - 10
             @instructText.draw('Press Space To Start', x, y, ig.Font.ALIGN.CENTER)
+            elems.gui.gameName.show()
 
     # Start the game
     ig.main '#canvas', StartScreen, 60, elems.canvas.width(), elems.canvas.height(), 1, ig.ImpactSplashLoader

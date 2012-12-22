@@ -40,10 +40,16 @@ html, body {
 
 #gui {
     /* Hide all GUI elements */
-    * { display: none; }
+    > * { display: none; }
 }
 
-#paused { position: absolute; }
+#gameName, #paused {
+    position: absolute;
+}
+
+#gameName {
+    font-size: 30px;
+}
 
 /*** Classes ***/
 
