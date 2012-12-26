@@ -225,7 +225,8 @@ ig.module(
                 ig.game.unpause()
 
     StartScreen = ig.Game.extend
-        instructText: new ig.Font 'media/fonts/04b03.font.png'
+        instructFont: new ig.Font 'media/fonts/04b03.font.png'
+        instructText: 'Press Space To Start'
 
         init: ->
             ig.input.bind ig.KEY.SPACE, 'start'
@@ -241,8 +242,8 @@ ig.module(
             @parent()
 
             x = ig.system.width / 2
-            y = ig.system.height - 10
-            @instructText.draw('Press Space To Start', x, y, ig.Font.ALIGN.CENTER)
+            y = ig.system.height - @instructFont.heightForString(@instructText) - 10
+            @instructFont.draw(@instructText, x, y, ig.Font.ALIGN.CENTER)
             elems.gui.gameName.show()
 
     # Start the game
