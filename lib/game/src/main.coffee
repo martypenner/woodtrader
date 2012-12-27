@@ -84,7 +84,7 @@ ig.module(
 
     MainGame = ig.Game.extend
         # Load a font
-        info: new ig.Font 'media/fonts/04b03.font.png'
+        info: new ig.Font 'media/fonts/arial-12-normal-white.png'
 
         # Preload music
         bgMusicMarket: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
@@ -225,7 +225,7 @@ ig.module(
                 ig.game.unpause()
 
     StartScreen = ig.Game.extend
-        instructFont: new ig.Font 'media/fonts/04b03.font.png'
+        instructFont: new ig.Font 'media/fonts/arial-12-normal-white.png'
         instructText: 'Press Space To Start'
 
         init: ->
