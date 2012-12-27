@@ -43,12 +43,8 @@ html, body {
     > * { display: none; }
 }
 
-#gameName, #paused {
+#paused {
     position: absolute;
-}
-
-#gameName {
-    font-size: 30px;
 }
 
 /*** Classes ***/

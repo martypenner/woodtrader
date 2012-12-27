@@ -6,15 +6,13 @@ elems =
     canvas: $('#canvas')
     guiContainer: $('#gui')
     gui:
-        gameName: $('#gameName')
         paused: $('#paused')
 
 # Position various gui elements
-elems.gui.paused.add(elems.gui.gameName).each ->
-    $(@).css(
-        top: (elems.canvas.height() - $(@).height()) / 2
-        left: (elems.canvas.width() - $(@).width()) / 2
-    )
+elems.gui.paused.css(
+    top: (elems.canvas.height() - elems.gui.paused.height()) / 2
+    left: (elems.canvas.width() - elems.gui.paused.width()) / 2
+)
 
 ig.module(
     'game.main'
@@ -83,8 +81,10 @@ ig.module(
             @spawnEntity EntityPlayer, x, y, persistedProperties
 
     MainGame = ig.Game.extend
-        # Load a font
-        info: new ig.Font 'media/fonts/arial-12-normal-white.png'
+        # Load fonts
+        arial12: new ig.Font 'media/fonts/arial-12-normal-white.png'
+        arial14: new ig.Font 'media/fonts/arial-14-normal-white.png'
+        arial16: new ig.Font 'media/fonts/arial-16-normal-white.png'
 
         # Preload music
         bgMusicMarket: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
@@ -192,7 +192,7 @@ ig.module(
                         Mana: #{@player.mana}
                         Logs: #{@player.inventory.getCount('log')}
                         """
-            @info.draw(hudString, 20, 20)
+            @arial12.draw(hudString, 20, 20)
 
             # Calls tick on our SystemManager object, which is the main EaselJS code
             # that handles drawing the non-gameplay elements
@@ -225,8 +225,10 @@ ig.module(
                 ig.game.unpause()
 
     StartScreen = ig.Game.extend
-        instructFont: new ig.Font 'media/fonts/arial-12-normal-white.png'
+        arial12: new ig.Font 'media/fonts/arial-12-normal-white.png'
+        arial16: new ig.Font 'media/fonts/arial-16-normal-white.png'
         instructText: 'Press Space To Start'
+        gameNameText: 'WOODTRADER'
 
         init: ->
             ig.input.bind ig.KEY.SPACE, 'start'
@@ -235,16 +237,17 @@ ig.module(
             @parent()
 
             if ig.input.pressed('start')
-                elems.gui.gameName.remove()
                 ig.system.setGame MainGame
 
         draw: ->
             @parent()
 
             x = ig.system.width / 2
-            y = ig.system.height - @instructFont.heightForString(@instructText) - 10
-            @instructFont.draw(@instructText, x, y, ig.Font.ALIGN.CENTER)
-            elems.gui.gameName.show()
+            y = ig.system.height - @arial12.heightForString(@instructText) - 10
+            @arial12.draw(@instructText, x, y, ig.Font.ALIGN.CENTER)
+
+            y = ig.system.height / 2
+            @arial16.draw(@gameNameText, x, y, ig.Font.ALIGN.CENTER)
 
     # Start the game
     ig.main '#canvas', StartScreen, 60, elems.canvas.width(), elems.canvas.height(), 1, ig.ImpactSplashLoader
