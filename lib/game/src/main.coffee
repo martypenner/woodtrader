@@ -27,6 +27,7 @@ ig.module(
     # Plugins
     'plugins.impact-splash-loader'
     'plugins.director.director'
+    'plugins.gui'
 
     # Levels
     'game.levels.market1'
@@ -138,6 +139,8 @@ ig.module(
             # Bind mouse events
             ig.input.bind ig.KEY.MOUSE1, 'confirm'
 
+            @addGui()
+
             # Decrease the volume so the sound effects are heard better
             ig.music.loop = true
             ig.music.volume = 0.5
@@ -194,9 +197,30 @@ ig.module(
                         """
             @arial12.draw(hudString, 20, 20)
 
+            ig.gui.draw()
+
             # Calls tick on our SystemManager object, which is the main EaselJS code
             # that handles drawing the non-gameplay elements
 #            SystemManager.tick()
+
+        addGui: ->
+            img = new ig.Image('media/joystick.png')
+
+#            ig.gui.element.add
+#                name: 'left'
+#                size: x: 47, y: 47
+#                pos: x: 47, y: ig.system.height / 50
+#                state:
+#                    normal:
+#                        image: img
+#                        tile: 0
+#                        tileSize: 47
+#                    active:
+#                        image: img
+#                        tile: 1
+#                        tileSize: 47
+#                click: ->
+#                    console.log 'clicked'
 
         pause: ->
             return if not ig.system or not ig.system?.running
