@@ -8,6 +8,7 @@ ig.module(
 .requires(
     'game.entities.common.static-entity'
     'game.entities.inventory'
+    'game.entities.dialog'
 )
 .defines ->
     EntityTrader = EntityStaticEntity.extend
@@ -24,7 +25,7 @@ ig.module(
         bubble: new ig.Image 'media/dialogs/ellipsis.png'
         playerIsNear: false
 
-        dialogs: [new ig.Image 'media/dialogs/dialog1.png']
+        dialogs: []
         dialogVisible: false
 
         # The possible states this entity can be in
@@ -80,6 +81,10 @@ ig.module(
             # Call the parent constructor
             @parent x, y, settings
 
+            # Spawn the dialogs
+            dialog = ig.game.spawnEntity(EntityDialog, @pos.x - 2, @pos.y - 80)
+            @dialogs.push dialog
+
         update: ->
             @playerIsNear = @distanceTo(ig.game.player) < 110
 
@@ -97,8 +102,11 @@ ig.module(
 
             if @playerIsNear
                 if @dialogVisible
-                    @dialogs[0].draw @pos.x - ig.game.screen.x - 2, @pos.y - ig.game.screen.y - 80
+                    # Update the dialog position according to the trader position and screen offset
+                    @dialogs[0].visible = true
+                    @dialogs[0].pos = x: @pos.x - ig.game.screen.x - 2, y: @pos.y - ig.game.screen.y - 80
                 else
+                    @dialogs[0].visible = false
                     @bubble.draw @pos.x - ig.game.screen.x - 2, @pos.y - ig.game.screen.y - 43
 
             @parent()

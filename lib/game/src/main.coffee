@@ -48,6 +48,7 @@ ig.module(
     'game.entities.log'
     'game.entities.menu'
     'game.entities.enemy'
+    'game.entities.dialog'
 )
 .defines ->
 
