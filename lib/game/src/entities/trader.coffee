@@ -23,10 +23,12 @@ ig.module(
         animSheet: new ig.AnimationSheet 'media/characters/trader.png', 48, 64
 
         bubble: new ig.Image 'media/dialogs/ellipsis.png'
+        bubbleRelativePos: x: -2, y: -43
         playerIsNear: false
 
         dialogs: []
         dialogVisible: false
+        dialogRelativePos: x: -2, y: -100
 
         # The possible states this entity can be in
         states:
@@ -82,7 +84,12 @@ ig.module(
             @parent x, y, settings
 
             # Spawn the dialogs
-            dialog = ig.game.spawnEntity(EntityDialog, @pos.x - 2, @pos.y - 80)
+            dialog = ig.game.spawnEntity(
+                EntityDialog
+                @pos.x + @dialogRelativePos.x
+                @pos.y + @dialogRelativePos.y
+                text: ["I enjoy purchasing\nvarious species of\ntrees!"]
+            )
             @dialogs.push dialog
 
         update: ->
@@ -104,9 +111,9 @@ ig.module(
                 if @dialogVisible
                     # Update the dialog position according to the trader position and screen offset
                     @dialogs[0].visible = true
-                    @dialogs[0].pos = x: @pos.x - ig.game.screen.x - 2, y: @pos.y - ig.game.screen.y - 80
+                    @dialogs[0].pos = x: @pos.x - ig.game.screen.x + @dialogRelativePos.x, y: @pos.y - ig.game.screen.y + @dialogRelativePos.y
                 else
                     @dialogs[0].visible = false
-                    @bubble.draw @pos.x - ig.game.screen.x - 2, @pos.y - ig.game.screen.y - 43
+                    @bubble.draw @pos.x - ig.game.screen.x + @bubbleRelativePos.x, @pos.y - ig.game.screen.y + @bubbleRelativePos.y
 
             @parent()
