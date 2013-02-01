@@ -114,9 +114,6 @@ ig.module(
         playerLastPos: null
 
         init: ->
-            # Load EaselJS
-#            SystemManager.init()
-
             # Auto-pause the game when leaving the browser tab
             $(window).blur -> ig.game.pause()
 
@@ -181,13 +178,7 @@ ig.module(
                 @screen.y = y
 
         draw: ->
-            # Clear out the main canvas since Easel will have drawn things that Impact doesn’t know about
-#            ctx = ig.system.context
-#            ctx.setTransform 1, 0, 0, 1, 0, 0
-#            ctx.clearRect 0, 0, ig.system.width, ig.system.height
-
             # Call draw on the parent object to make sure that all draws to the canvas are finalized
-            # before telling Easel to update
             @parent()
 
             hudString = """
@@ -199,10 +190,6 @@ ig.module(
             @arial12.draw(hudString, 20, 20)
 
             ig.gui.draw()
-
-            # Calls tick on our SystemManager object, which is the main EaselJS code
-            # that handles drawing the non-gameplay elements
-#            SystemManager.tick()
 
         addGui: ->
             img = new ig.Image('media/joystick.png')
