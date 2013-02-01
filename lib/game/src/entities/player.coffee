@@ -189,7 +189,6 @@ ig.module(
 
             ### Movement ###
 
-            # If moving sideways, change the hit box dimensions and offset
             if ig.input.state 'up'
                 @currentAnim = @anims.walkUp
                 @facing = 'Up'
@@ -212,6 +211,7 @@ ig.module(
                 else if ig.input.state 'left'
                     @vel.x = -@velocity
 
+            # If moving sideways, change the hit box dimensions and offset
             else if ig.input.state 'left'
                 @currentAnim = @anims.walkLeft
                 @facing = 'Left'
