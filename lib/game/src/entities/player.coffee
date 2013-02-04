@@ -65,10 +65,7 @@ ig.module(
         mana: 50
         maxMana: 50
         manaRegenerateDelay: 3
-        manaRegenerateDelayTimer: null
         manaRegenerateRate: 1
-        manaRegenerateTimer: null
-        fireballManaCost: 5
 
         # Properties to save between levels
         persistedProperties: [

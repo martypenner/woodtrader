@@ -64,19 +64,21 @@ ig.module(
 
             entity.weaponAnimTimer = new ig.Timer()
 
-            manaAfterCast = if entity.mana? and entity[entity.activeWeapon + 'ManaCost']? then entity.mana - entity[entity.activeWeapon + 'ManaCost'] else -1
+            weaponEntity = ig.game.spawnEntity(
+                'Entity' +
+                entity.activeWeapon.substring(0, 1).toUpperCase() +
+                entity.activeWeapon.substring(1),
+                0,
+                0,
+                facing: entity.facing
+            )
+            weaponEntity.pos = @getWeaponCoordinates weaponEntity, entity
+
+            manaAfterCast = if entity.mana? and weaponEntity.cost? then entity.mana - weaponEntity.cost else -1
 
             if (entity.activeWeapon is 'fireball' and manaAfterCast >= 0) or entity.activeWeapon is 'axe'
                 if entity.activeWeapon is 'fireball'
-                    entity.mana -= entity[entity.activeWeapon + 'ManaCost']
+                    entity.mana -= weaponEntity.cost
                     entity.manaRegenerateDelayTimer = new ig.Timer()
 
-                weaponEntity = ig.game.spawnEntity(
-                    'Entity' +
-                    entity.activeWeapon.substring(0, 1).toUpperCase() +
-                    entity.activeWeapon.substring(1),
-                    0,
-                    0,
-                    facing: entity.facing
-                )
-                weaponEntity.pos = @getWeaponCoordinates weaponEntity, entity
+                    weaponEntity.fire()

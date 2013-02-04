@@ -28,6 +28,8 @@ ig.module(
         usesMana: true
         cost: 5
 
+        canFire: false
+
         idleAnimSpeed: 0.06
 
         lifeTimer: null
@@ -35,6 +37,7 @@ ig.module(
 
         init: (x, y, settings) ->
             # Add animations to the animation sheet
+            @addAnim 'invisible', @idleAnimSpeed, [1000]
             @addAnim 'up', @idleAnimSpeed, [0]
             @addAnim 'down', @idleAnimSpeed, [1]
             @addAnim 'right', @idleAnimSpeed, [2]
@@ -43,6 +46,8 @@ ig.module(
             # Call the parent constructor
             @parent x, y, settings
 
+        fire: ->
+            @currentAnim = @facing.toLowerCase()
             @lifeTimer = new ig.Timer()
             @use.play()
 
@@ -56,7 +61,11 @@ ig.module(
                 else if @facing is 'Right' then x: @maxVel.x, y: 0
                 else if @facing is 'Left' then x: -@maxVel.x, y: 0
 
+            @canFire = true
+
         update: ->
+            return if not @canFire
+
             # If the fireball stops moving, or its life timer is up, kill it
             @kill() if (@vel.x is 0 and @vel.y is 0) or @lifeTimer.delta() > @lifeTime
 
@@ -64,9 +73,13 @@ ig.module(
             @parent()
 
         check: (other) ->
+            return if not @canFire
+
             other.receiveDamage(5, @)
             @kill()
 
         handleMovementTrace: (res) ->
+            return if not @canFire
+
             @kill() if res.collision.x or res.collision.y
             @parent(res)
