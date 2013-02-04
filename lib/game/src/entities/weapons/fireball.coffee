@@ -25,6 +25,9 @@ ig.module(
             x: 400
             y: 400
 
+        usesMana: true
+        cost: 5
+
         idleAnimSpeed: 0.06
 
         lifeTimer: null

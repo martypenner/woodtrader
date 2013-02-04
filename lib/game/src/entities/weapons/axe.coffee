@@ -19,6 +19,8 @@ ig.module(
 
         use: new ig.Sound 'media/sounds/axe-swing.*'
 
+        cost: 0
+
         lifeTimer: null
 
         init: (x, y, settings) ->

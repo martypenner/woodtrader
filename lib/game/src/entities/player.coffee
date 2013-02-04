@@ -53,13 +53,11 @@ ig.module(
         # Store the inventory entity for the player
         inventory: null
 
-        # Timer for the weapon animations
-        weaponAnimTimer: null
-        weaponAnimTime: 0.1
-
-        # Store the currently equipped weapon
+        # Store weapon properties
+        canUseWeapons: true
         activeWeapon: 'axe'
         weapons: ['axe', 'fireball']
+        weaponAnimTimer: null
 
         health: 50
 
@@ -103,9 +101,6 @@ ig.module(
             # Set the entity's default state
             @state = @states.DEFAULT
 
-            @manaRegenerateTimer = new ig.Timer()
-            @manaRegenerateDelayTimer = new ig.Timer()
-
             # Spawn the inventory at 0, 0 and store it, but only if we're not in Weltmeister
             if not ig.global.wm
                 @inventory = ig.game.spawnEntity EntityInventory
@@ -121,12 +116,6 @@ ig.module(
             ig.game.player = @
 
         update: ->
-            # Mana regeneration every second
-            if @manaRegenerateDelayTimer?.delta() > @manaRegenerateDelay
-                if @manaRegenerateTimer.delta() > 1
-                    @mana += @manaRegenerateRate if @mana + @manaRegenerateRate <= @maxMana
-                    @manaRegenerateTimer.reset()
-
             # Check for button presses and activate the appropriate animation
             @handleButtons()
 
@@ -166,26 +155,6 @@ ig.module(
             # If trying to access inventory, use the keys to navigate the menu
     #        if @state == @states.IN_INVENTORY
                 # Check for keypresses to navigate
-
-            ### Weapons ###
-
-            if ig.input.pressed 'attack'
-                @currentAnim = @anims[@activeWeapon + @facing]
-                @weaponAnimTimer = new ig.Timer()
-
-                manaAfterCast = @mana - @fireballManaCost
-                if (@activeWeapon is 'fireball' and manaAfterCast >= 0) or @activeWeapon is 'axe'
-                    if @activeWeapon is 'fireball'
-                        @mana -= @fireballManaCost
-                        @manaRegenerateDelayTimer = new ig.Timer()
-
-                    weapon = ig.game.spawnEntity(
-                        'Entity' + @activeWeapon.substring(0, 1).toUpperCase() + @activeWeapon.substring(1),
-                        0,
-                        0,
-                        facing: @facing
-                    )
-                    weapon.pos = @getWeaponCoordinates weapon
 
             ### Movement ###
 
@@ -228,26 +197,6 @@ ig.module(
                 # Stop all movement and show the correct idle animation for
                 # the direction the player is facing
                 @reset() if not ig.input.pressed 'attack'
-
-
-        getWeaponCoordinates: (weaponEntity) ->
-            pos = x: 0, y: 0
-
-            switch @facing
-                when 'Up'
-                    pos.x = @pos.x
-                    pos.y = @pos.y - weaponEntity.size.y
-                when 'Down'
-                    pos.x = @pos.x
-                    pos.y = @pos.y + @size.y
-                when 'Left'
-                    pos.x = @pos.x - weaponEntity.size.x
-                    pos.y = @pos.y
-                when 'Right'
-                    pos.x = @pos.x + @size.x
-                    pos.y = @pos.y
-
-            return pos
 
         switchWeapon: ->
             weapon = @weapons.indexOf(@activeWeapon) + 1
