@@ -27,9 +27,7 @@ ig.module(
                 @spawnWeapon(entity)
 
         getWeaponCoordinates: (weaponEntity, spawningEntity) ->
-            pos = x: 0, y: 0
-
-            switch spawningEntity.facing
+            return switch spawningEntity.facing
                 when 'Up'
                     pos.x = spawningEntity.pos.x
                     pos.y = spawningEntity.pos.y - weaponEntity.size.y
@@ -42,8 +40,8 @@ ig.module(
                 when 'Right'
                     pos.x = spawningEntity.pos.x + spawningEntity.size.x
                     pos.y = spawningEntity.pos.y
-
-            return pos
+                else
+                    pos = x: 0, y: 0
 
         # Regenerate mana every second
         regenerateMana: (entity) ->
