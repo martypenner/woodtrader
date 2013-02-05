@@ -5,7 +5,6 @@ Weaponizr = {}
 ig.module(
     'game.common.weaponizr'
 ).requires(
-    'game.entities.common.static-entity'
 ).defines ->
     Weaponizr = ig.Class.extend
         activeEntities: []
