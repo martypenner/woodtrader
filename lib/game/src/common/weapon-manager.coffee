@@ -11,8 +11,9 @@ ig.module(
         activeEntities: []
 
         init: ->
+            # Store any entities that can use weapons, based on a property
             for entity in ig.game.entities
-                if entity.canUseWeapons
+                if entity.canUseWeapons?
                     entity.weaponAnimTime = 0.1
                     entity.manaRegenerateTimer = new ig.Timer()
                     entity.manaRegenerateDelayTimer = new ig.Timer()
