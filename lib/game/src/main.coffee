@@ -34,7 +34,7 @@ ig.module(
     'game.levels.forest1'
 
     # Common
-    'game.common.weapon-manager'
+    'game.common.weaponizr'
 
     # Entities
     'game.entities.common.base-entity'
@@ -84,7 +84,9 @@ ig.module(
                 {x, y} = @playerStartingLevelPositions[levelName]
 
             @spawnEntity EntityPlayer, x, y, persistedProperties
-            @weaponManager = new WeaponManager()
+
+            # Create a new weaponizr
+            @weaponizr = new Weaponizr()
 
     MainGame = ig.Game.extend
         # Load fonts
@@ -106,7 +108,7 @@ ig.module(
         # Store a global level director
         director: null
 
-        weaponManager: null
+        weaponizr: null
 
         # Sort all entities by their Y position
         autoSort: true
@@ -157,15 +159,12 @@ ig.module(
             # Setup the level director and auto-load the first level
             @director = new ig.Director @, [LevelMarket1, LevelForest1]
 
-            # Create a new weapon manager
-            @weaponManager = new WeaponManager()
-
         update: ->
             # Update all entities and background maps
             @parent()
 
             # Update the weapon manager
-            @weaponManager.update()
+            @weaponizr.update()
 
             @mainBgMap ?= ig.game.getMapByName 'main'
 

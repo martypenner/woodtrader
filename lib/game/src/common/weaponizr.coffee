@@ -1,13 +1,13 @@
 `/*`
-WeaponManager = {}
+Weaponizr = {}
 `*/`
 
 ig.module(
-    'game.common.weapon-manager'
+    'game.common.weaponizr'
 ).requires(
     'game.entities.common.static-entity'
 ).defines ->
-    WeaponManager = ig.Class.extend
+    Weaponizr = ig.Class.extend
         activeEntities: []
 
         init: ->
