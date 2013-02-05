@@ -193,7 +193,7 @@ ig.module(
             @parent()
 
             hudString = """
-                        Weapon: #{@player.activeWeapon}
+                        Weapon: #{@player.weaponManager.activeWeapon}
                         Health: #{@player.health}
                         Mana: #{@player.mana}
                         Logs: #{@player.inventory.getCount('log')}

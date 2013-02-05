@@ -13,7 +13,6 @@ ig.module(
             # Store any entities that can use weapons, based on a property
             for entity in ig.game.entities
                 if entity.canUseWeapons?
-                    entity.weaponAnimTime = 0.1
                     entity.manaRegenerateTimer = new ig.Timer()
                     entity.manaRegenerateDelayTimer = new ig.Timer()
 
@@ -27,7 +26,9 @@ ig.module(
                 @spawnWeapon(entity)
 
         getWeaponCoordinates: (weaponEntity, spawningEntity) ->
-            return switch spawningEntity.facing
+            pos = x: 0, y: 0
+
+            switch spawningEntity.facing
                 when 'Up'
                     pos.x = spawningEntity.pos.x
                     pos.y = spawningEntity.pos.y - weaponEntity.size.y
@@ -43,6 +44,8 @@ ig.module(
                 else
                     pos = x: 0, y: 0
 
+            return pos
+
         # Regenerate mana every second
         regenerateMana: (entity) ->
             if entity.manaRegenerateDelayTimer?.delta() > entity.manaRegenerateDelay
@@ -54,18 +57,18 @@ ig.module(
         changeEntityAnimation: (entity) ->
             return if not ig.input.pressed 'attack'
 
-            entity.currentAnim = entity.anims[entity.activeWeapon + entity.facing]
+            entity.currentAnim = entity.anims[entity.weaponManager.activeWeapon + entity.facing]
 
         # Spawn the appropriate weapon at the entity's position
         spawnWeapon: (entity) ->
             return if not ig.input.pressed 'attack'
 
-            entity.weaponAnimTimer = new ig.Timer()
+            entity.weaponManager.weaponAnimTimer = new ig.Timer()
 
             weaponEntity = ig.game.spawnEntity(
                 'Entity' +
-                entity.activeWeapon.substring(0, 1).toUpperCase() +
-                entity.activeWeapon.substring(1),
+                entity.weaponManager.activeWeapon.substring(0, 1).toUpperCase() +
+                entity.weaponManager.activeWeapon.substring(1),
                 0,
                 0,
                 facing: entity.facing
@@ -74,8 +77,8 @@ ig.module(
 
             manaAfterCast = if entity.mana? and weaponEntity.cost? then entity.mana - weaponEntity.cost else -1
 
-            if (entity.activeWeapon is 'fireball' and manaAfterCast >= 0) or entity.activeWeapon is 'axe'
-                if entity.activeWeapon is 'fireball'
+            if (entity.weaponManager.activeWeapon is 'fireball' and manaAfterCast >= 0) or entity.weaponManager.activeWeapon is 'axe'
+                if entity.weaponManager.activeWeapon is 'fireball'
                     entity.mana -= weaponEntity.cost
                     entity.manaRegenerateDelayTimer = new ig.Timer()
 

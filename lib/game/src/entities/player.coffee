@@ -8,6 +8,7 @@ ig.module(
 .requires(
     'game.entities.common.base-entity'
     'game.entities.inventory'
+    'game.common.weapon-manager'
     'game.entities.weapons.axe'
     'game.entities.weapons.fireball'
 )
@@ -55,9 +56,7 @@ ig.module(
 
         # Store weapon properties
         canUseWeapons: true
-        activeWeapon: 'axe'
-        weapons: ['axe', 'fireball']
-        weaponAnimTimer: null
+        weaponManager: null
 
         health: 50
 
@@ -72,7 +71,7 @@ ig.module(
             'health'
             'mana'
             'manaRegenerateDelayTimer'
-            'activeWeapon'
+            'weaponManager'
             'inventory'
         ]
 
@@ -98,6 +97,11 @@ ig.module(
             # Set the entity's default state
             @state = @states.DEFAULT
 
+            @weaponManager = new WeaponManager(
+                activeWeapon: 'axe'
+                weapons:      ['axe', 'fireball']
+            )
+
             # Spawn the inventory at 0, 0 and store it, but only if we're not in Weltmeister
             if not ig.global.wm
                 @inventory = ig.game.spawnEntity EntityInventory
@@ -113,6 +117,8 @@ ig.module(
             ig.game.player = @
 
         update: ->
+            @weaponManager.update()
+
             # Check for button presses and activate the appropriate animation
             @handleButtons()
 
@@ -132,8 +138,6 @@ ig.module(
             if not @movementAllowed
                 @reset()
                 return
-
-            @switchWeapon() if ig.input.pressed 'switchWeapon'
 
             ### Inventory/Menu Navigation ###
 
@@ -195,18 +199,12 @@ ig.module(
                 # the direction the player is facing
                 @reset() if not ig.input.pressed 'attack'
 
-        switchWeapon: ->
-            weapon = @weapons.indexOf(@activeWeapon) + 1
-            weapon = 0 if weapon > @weapons.length - 1
-
-            @activeWeapon = @weapons[weapon]
-
         reset: ->
-            # Reset the player idle animation if we're not showing the axe swing
-            if not @weaponAnimTimer?
+            # Reset the player idle animation if a weapon isn't active right now
+            if not @weaponManager.weaponIsActive()
                 @currentAnim = @anims['idle' + @facing]
             else
-                @weaponAnimTimer = null if @weaponAnimTimer.delta() > @weaponAnimTime
+                @weaponManager.reset()
 
             # Cancel all movement
             @vel.x = 0
