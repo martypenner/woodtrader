@@ -11,6 +11,12 @@ module.exports = function (grunt) {
                 dest: 'build/<%= pkg.name %>.min.js'
             }
         },
+        watch: {
+            coffee: {
+                files: ['lib/src/**/*.coffee'],
+                tasks: ['coffee']
+            }
+        },
         coffee: {
             dev: {
                 files: [{
