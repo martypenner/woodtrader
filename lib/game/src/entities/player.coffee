@@ -8,9 +8,9 @@ ig.module(
 .requires(
     'game.entities.common.base-entity'
     'game.entities.inventory'
-#    'game.common.weapon-manager'
-#    'game.entities.weapons.axe'
-#    'game.entities.weapons.fireball'
+    'game.common.weapon-manager'
+    'game.entities.weapons.axe'
+    'game.entities.weapons.fireball'
 )
 .defines ->
     EntityPlayer = EntityBaseEntity.extend
@@ -97,10 +97,10 @@ ig.module(
             # Set the entity's default state
             @state = @states.DEFAULT
 
-#            @weaponManager = new WeaponManager(
-#                activeWeapon: 'axe'
-#                weapons:      ['axe', 'fireball']
-#            )
+            @weaponManager = new WeaponManager(
+                activeWeapon: 'axe'
+                weapons:      ['axe', 'fireball']
+            )
 
             # Spawn the inventory at 0, 0 and store it, but only if we're not in Weltmeister
             if not ig.global.wm
@@ -117,7 +117,7 @@ ig.module(
             ig.game.player = @
 
         update: ->
-#            @weaponManager.update()
+            @weaponManager.update()
 
             # Check for button presses and activate the appropriate animation
             @handleButtons()
@@ -201,10 +201,10 @@ ig.module(
 
         reset: ->
             # Reset the player idle animation if a weapon isn't active right now
-#            if not @weaponManager.weaponIsActive()
-            @currentAnim = @anims['idle' + @facing]
-#            else
-#                @weaponManager.reset()
+            if not @weaponManager.weaponIsActive()
+                @currentAnim = @anims['idle' + @facing]
+            else
+                @weaponManager.reset()
 
             # Cancel all movement
             @vel.x = 0

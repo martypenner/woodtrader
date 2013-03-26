@@ -34,7 +34,7 @@ ig.module(
     'game.levels.forest1'
 
     # Common
-#    'game.common.weaponizr'
+    'game.common.weaponizr'
 
     # Entities
     'game.entities.common.base-entity'
@@ -86,7 +86,7 @@ ig.module(
             @spawnEntity EntityPlayer, x, y, persistedProperties
 
             # Create a new weaponizr
-#            @weaponizr = new Weaponizr()
+            @weaponizr = new Weaponizr()
 
     MainGame = ig.Game.extend
         # Load fonts
@@ -164,7 +164,7 @@ ig.module(
             @parent()
 
             # Update the weapon manager
-#            @weaponizr.update()
+            @weaponizr.update()
 
             @mainBgMap ?= ig.game.getMapByName 'main'
 
