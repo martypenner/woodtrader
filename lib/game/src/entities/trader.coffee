@@ -80,17 +80,17 @@ ig.module(
                 @inventory.pos.x = (ig.system.width - @inventory.size.x) / 2
                 @inventory.pos.y = (ig.system.height - @inventory.size.y) / 2
 
+                # Spawn the dialogs
+                dialog = ig.game.spawnEntity(
+                    EntityDialog
+                    @pos.x + @dialogRelativePos.x
+                    @pos.y + @dialogRelativePos.y
+                    text: ["I enjoy purchasing\nvarious species of\ntrees!"]
+                )
+                @dialogs.push dialog
+
             # Call the parent constructor
             @parent x, y, settings
-
-            # Spawn the dialogs
-            dialog = ig.game.spawnEntity(
-                EntityDialog
-                @pos.x + @dialogRelativePos.x
-                @pos.y + @dialogRelativePos.y
-                text: ["I enjoy purchasing\nvarious species of\ntrees!"]
-            )
-            @dialogs.push dialog
 
         update: ->
             @playerIsNear = @distanceTo(ig.game.player) < 110
