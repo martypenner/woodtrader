@@ -9,3 +9,4 @@ weltmeister.html
 tools
 /.sass-cache/
 /node_modules/
+*.map

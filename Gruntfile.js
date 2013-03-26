@@ -18,6 +18,9 @@ module.exports = function (grunt) {
             }
         },
         coffee: {
+            options: {
+                sourceMap: true
+            },
             dev: {
                 files: [{
                     expand: true,
