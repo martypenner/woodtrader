@@ -13,7 +13,7 @@ module.exports = function (grunt) {
         },
         watch: {
             coffee: {
-                files: ['lib/src/**/*.coffee'],
+                files: ['lib/game/src/**/*.coffee'],
                 tasks: ['coffee']
             }
         },
@@ -21,7 +21,7 @@ module.exports = function (grunt) {
             dev: {
                 files: [{
                     expand: true,
-                    cwd: 'lib/src/',
+                    cwd: 'lib/game/src/',
                     src: ['**/*.coffee'],
                     dest: 'lib/game/',
                     ext: '.js'
