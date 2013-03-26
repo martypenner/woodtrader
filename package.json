@@ -1,0 +1,13 @@
+{
+  "name": "woodtrader",
+  "version": "0.1.0",
+  "author": "Marty Penner <marty@gmail>",
+  "contributors": [
+    "Ryan Harms <ryan@gmail>"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-coffee": "~0.6.4",
+    "grunt-contrib-watch": "~0.3.1"
+  }
+}

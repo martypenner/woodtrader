@@ -21,6 +21,9 @@ ig.module(
     'impact.game'
     'impact.font'
 
+    # Libs
+    'plusplus.core.game'
+
     # Debug
     'impact.debug.debug'
 
@@ -34,7 +37,7 @@ ig.module(
     'game.levels.forest1'
 
     # Common
-    'game.common.weaponizr'
+#    'game.common.weaponizr'
 
     # Entities
     'game.entities.common.base-entity'
@@ -86,9 +89,9 @@ ig.module(
             @spawnEntity EntityPlayer, x, y, persistedProperties
 
             # Create a new weaponizr
-            @weaponizr = new Weaponizr()
+#            @weaponizr = new Weaponizr()
 
-    MainGame = ig.Game.extend
+    MainGame = ig.GameExtended.extend
         # Load fonts
         arial12: new ig.Font 'media/fonts/arial-12-normal-white.png'
         arial14: new ig.Font 'media/fonts/arial-14-normal-white.png'
@@ -122,6 +125,8 @@ ig.module(
         playerLastPos: null
 
         init: ->
+#            @parent()
+
             # Auto-pause the game when leaving the browser tab
             $(window).blur -> ig.game.pause()
 
@@ -164,7 +169,7 @@ ig.module(
             @parent()
 
             # Update the weapon manager
-            @weaponizr.update()
+#            @weaponizr.update()
 
             @mainBgMap ?= ig.game.getMapByName 'main'
 
@@ -193,7 +198,6 @@ ig.module(
             @parent()
 
             hudString = """
-                        Weapon: #{@player.weaponManager.activeWeapon}
                         Health: #{@player.health}
                         Mana: #{@player.mana}
                         Logs: #{@player.inventory.getCount('log')}
