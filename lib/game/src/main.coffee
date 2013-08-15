@@ -192,7 +192,7 @@ ig.module(
                             Health: #{player.health}
                             Energy: #{player.energy}
                             Logs: #{player.inventory.getCount('log')}
-                            Current Weapon: #{player.weaponManager.activeWeapon}
+                            Current Weapon: #{player.weapons[player.activeWeaponIndex]}
                             """
 
                 @arial12.draw(hudString, 20, 20)

@@ -94,6 +94,13 @@ ig.module(
         regenDelay: 0.8
         persistent: true
 
+        activeWeapon: null
+        activeWeaponIndex: 0
+        weapons: [
+            'axe'
+            'fireball'
+        ]
+
         # Properties to save between levels
         persistedProperties: [
             'health'
@@ -109,11 +116,6 @@ ig.module(
             # Set the entity's default state
             @state = @states.DEFAULT
 
-            @weaponManager = new WeaponManager(
-                activeWeapon: 'axe'
-                weapons:      ['axe', 'fireball']
-            )
-
             # Spawn the inventory at 0, 0 and store it, but only if we're not in Weltmeister
             if not ig.global.wm
                 @inventory = ig.game.spawnEntity EntityInventory
@@ -126,8 +128,9 @@ ig.module(
             ig.global.player = @
 
             # Shoot fireballs and swing axes like a pro
-            @fireball = new ig.FireballCaster(@)
             @axe = new ig.EntityAxe(@)
+            @fireball = new ig.FireballCaster(@)
+            @activeWeapon = @[@weapons[@activeWeaponIndex]]
 
             @abilities.addDescendants([@fireball, @axe])
 
@@ -139,7 +142,6 @@ ig.module(
 
         updateChanges: ->
             @parent()
-            @weaponManager.update()
 
             # Check for button presses and activate the appropriate animation
             @handleButtons()
@@ -158,6 +160,11 @@ ig.module(
                 @resetAnims()
                 return
 
+            if ig.input.pressed 'switchWeapon'
+                @activeWeaponIndex++
+                @activeWeaponIndex = if not @weapons[@activeWeaponIndex]? then 0 else @activeWeaponIndex
+                @activeWeapon = @[@weapons[@activeWeaponIndex]]
+
             if ig.input.pressed 'attack'
                 if @facing.x != 0
                     shootX = if @facing.x > 0 then @pos.x + @size.x else @pos.x
@@ -169,7 +176,7 @@ ig.module(
                 else
                     shootY = @pos.y + @size.y * 0.5
 
-                @fireball.execute(x: shootX, y: shootY)
+                @activeWeapon.execute(x: shootX, y: shootY)
 
             ### Inventory/Menu Navigation ###
 
