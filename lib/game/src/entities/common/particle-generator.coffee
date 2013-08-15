@@ -7,10 +7,10 @@ ig.module(
 )
 .requires(
     'game.entities.common.particle'
-    'impact.entity'
+    'plusplus.core.entity'
 )
 .defines ->
-    EntityParticleGenerator = ig.Entity.extend
+    EntityParticleGenerator = ig.EntityExtended.extend
         lifetime: 1
         callback: null
         particles: 25

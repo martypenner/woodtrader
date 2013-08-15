@@ -27,10 +27,10 @@ ig.module(
 	'game.entities.common.trigger'
 )
 .requires(
-	'impact.entity'
+    'plusplus.core.entity'
 )
 .defines ->
-    EntityTrigger = ig.Entity.extend
+    EntityTrigger = ig.EntityExtended.extend
         size:
             x: 16
             y: 16

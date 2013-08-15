@@ -11,7 +11,7 @@ ig.module(
     'game.entities.dialog'
 )
 .defines ->
-    EntityTrader = EntityStaticEntity.extend
+    EntityTrader = EntityBaseEntity.extend
         size:
             x: 29
             y: 35
@@ -21,6 +21,32 @@ ig.module(
         collides: ig.Entity.COLLIDES.FIXED
         type: ig.Entity.TYPE.A
         animSheet: new ig.AnimationSheet 'media/characters/trader.png', 48, 64
+        animSettings:
+            idleDown:
+                sequence: [0]
+                frameTime: 1
+            idleUp:
+                sequence: [7]
+                frameTime: 1
+            idleRight:
+                sequence: [14]
+                frameTime: 1
+            idleLeft:
+                sequence: [21]
+                frameTime: 1
+            walkDown:
+                sequence: [0, 1, 0, 2]
+                frameTime: 0.1
+            walkUp:
+                sequence: [7, 8, 7, 9]
+                frameTime: 0.1
+            walkRight:
+                sequence: [14, 15, 14, 16]
+                frameTime: 0.1
+            walkLeft:
+                sequence: [21, 22, 21, 23]
+                frameTime: 0.1
+        collides: ig.Entity.COLLIDES.FIXED
 
         bubble: new ig.Image 'media/dialogs/ellipsis.png'
         bubbleRelativePos: x: -2, y: -43
@@ -59,16 +85,6 @@ ig.module(
         inventory: null
 
         init: (x, y, settings) ->
-            # Add animations for the animation sheet
-            @addAnim 'idleDown', @idleAnimSpeed, [0]
-            @addAnim 'idleUp', @idleAnimSpeed, [8]
-            @addAnim 'idleRight', @idleAnimSpeed, [16]
-            @addAnim 'idleLeft', @idleAnimSpeed, [24]
-            @addAnim 'walkDown', @movingAnimSpeed, [0, 1, 2, 3, 4, 5, 6, 7]
-            @addAnim 'walkUp', @movingAnimSpeed, [8, 9, 10, 11, 12, 13, 14, 15]
-            @addAnim 'walkRight', @movingAnimSpeed, [16, 17, 18, 19, 20, 21, 22, 23]
-            @addAnim 'walkLeft', @movingAnimSpeed, [24, 25, 26, 27, 28, 29, 30, 31]
-
             # Set the entity's default state
             @state = @states.DEFAULT
 
@@ -93,7 +109,7 @@ ig.module(
             @parent x, y, settings
 
         update: ->
-            @playerIsNear = @distanceTo(ig.game.player) < 110
+            @playerIsNear = @distanceTo(ig.global.player) < 110
 
             @parent()
 
@@ -105,7 +121,7 @@ ig.module(
 
             if ig.input.pressed('confirm') and @playerIsNear
                 @dialogVisible = @playerIsNear and not @dialogVisible
-                ig.game.player.movementAllowed = not @dialogVisible
+                ig.global.player.movementAllowed = not @dialogVisible
 
             if @playerIsNear
                 if @dialogVisible

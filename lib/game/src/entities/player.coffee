@@ -6,14 +6,14 @@ ig.module(
     'game.entities.player'
 )
 .requires(
-    'game.entities.common.base-entity'
+    'plusplus.abstractities.player'
+    'game.entities.abilities.fireball-caster'
+    'game.entities.abilities.axe'
     'game.entities.inventory'
     'game.common.weapon-manager'
-    'game.entities.weapons.axe'
-    'game.entities.weapons.fireball'
 )
 .defines ->
-    EntityPlayer = EntityBaseEntity.extend
+    EntityPlayer = ig.Player.extend
         size:
             x: 16
             y: 20
@@ -22,9 +22,46 @@ ig.module(
             y: 22
         collides: ig.Entity.COLLIDES.ACTIVE
         type: ig.Entity.TYPE.A
-        animSheet: new ig.AnimationSheet 'media/characters/player_v1.png', 50, 50
-
-        name: 'player'
+        animSheet: new ig.AnimationSheet ig.CONFIG.PATH_TO_CHARACTERS + 'player_v1.png', 50, 50
+        animFrameTime: 0.1
+        animInit: 'idleDown'
+        animSettings:
+            idleDown:
+                sequence: [0]
+                frameTime: 1
+            idleUp:
+                sequence: [7]
+                frameTime: 1
+            idleRight:
+                sequence: [14]
+                frameTime: 1
+            idleLeft:
+                sequence: [21]
+                frameTime: 1
+            moveDown:
+                sequence: [0, 1, 0, 2]
+            moveUp:
+                sequence: [7, 8, 7, 9]
+            moveRight:
+                sequence: [14, 15, 14, 16]
+            moveLeft:
+                sequence: [21, 22, 21, 23]
+            axeDown:
+                sequence: [3]
+            axeUp:
+                sequence: [4]
+            axeRight:
+                sequence: [5]
+            axeLeft:
+                sequence: [6]
+            fireballDown:
+                sequence: [10]
+            fireballUp:
+                sequence: [11]
+            fireballRight:
+                sequence: [12]
+            fireballLeft:
+                sequence: [13]
 
         # The possible states this entity can be in
         states:
@@ -34,19 +71,12 @@ ig.module(
         # The current state for this entity
         state: null
 
-        # Last direction the player was facing, so the correct idle animation is shown
-        facing: 'Down'
-
-        # Default moving velocity
-        velocity: 300
-
-        # Maximum velocity
-        maxVel:
-            x: 500
-            y: 500
-
-        idleAnimSpeed: 1
-        movingAnimSpeed: 0.1
+        maxVelGrounded:
+            x: 250
+            y: 250
+        speed:
+            x: 10000
+            y: 10000
 
         # Whether the entity is allowed to move
         movementAllowed: true
@@ -54,17 +84,15 @@ ig.module(
         # Store the inventory entity for the player
         inventory: null
 
-        # Store weapon properties
-        canUseWeapons: true
-        weaponManager: null
-
+        # Health and MAGIC!!!
         health: 50
-
-        # MAGIC!!!
-        mana: 50
-        maxMana: 50
-        manaRegenerateDelay: 3
-        manaRegenerateRate: 1
+        energy: 50
+        energyMax: 50
+        regenHealth: false
+        regen: true
+        regenRateEnergy: 1
+        regenDelay: 0.8
+        persistent: true
 
         # Properties to save between levels
         persistedProperties: [
@@ -75,24 +103,8 @@ ig.module(
             'inventory'
         ]
 
-        init: (x, y, settings) ->
-            # Add animations to the animation sheet
-            @addAnim 'idleDown', @idleAnimSpeed, [0]
-            @addAnim 'idleUp', @idleAnimSpeed, [7]
-            @addAnim 'idleRight', @idleAnimSpeed, [14]
-            @addAnim 'idleLeft', @idleAnimSpeed, [21]
-            @addAnim 'walkDown', @movingAnimSpeed, [0, 1, 0, 2]
-            @addAnim 'walkUp', @movingAnimSpeed, [7, 8, 7, 9]
-            @addAnim 'walkRight', @movingAnimSpeed, [14, 15, 14, 16]
-            @addAnim 'walkLeft', @movingAnimSpeed, [21, 22, 21, 23]
-            @addAnim 'axeDown', @movingAnimSpeed, [3]
-            @addAnim 'axeUp', @movingAnimSpeed, [4]
-            @addAnim 'axeRight', @movingAnimSpeed, [5]
-            @addAnim 'axeLeft', @movingAnimSpeed, [6]
-            @addAnim 'fireballDown', @movingAnimSpeed, [10]
-            @addAnim 'fireballUp', @movingAnimSpeed, [11]
-            @addAnim 'fireballRight', @movingAnimSpeed, [12]
-            @addAnim 'fireballLeft', @movingAnimSpeed, [13]
+        initProperties: ->
+            @parent()
 
             # Set the entity's default state
             @state = @states.DEFAULT
@@ -110,20 +122,27 @@ ig.module(
                 @inventory.pos.x = (ig.system.width - @inventory.size.x) / 2
                 @inventory.pos.y = (ig.system.height - @inventory.size.y) / 2
 
-            # Call the parent constructor
-            @parent x, y, settings
-
             # Store the player entity globally for performance and ease of reference
-            ig.game.player = @
+            ig.global.player = @
 
-        update: ->
+            # Shoot fireballs and swing axes like a pro
+            @fireball = new ig.FireballCaster(@)
+            @axe = new ig.EntityAxe(@)
+
+            @abilities.addDescendants([@fireball, @axe])
+
+        spawn: ->
+            @parent()
+
+            # Face right
+            @facing = {x: 1, y: 0}
+
+        updateChanges: ->
+            @parent()
             @weaponManager.update()
 
             # Check for button presses and activate the appropriate animation
             @handleButtons()
-
-            # Call the parent to get physics and movement updates
-            @parent()
 
         draw: ->
             if not ig.global.wm
@@ -136,13 +155,26 @@ ig.module(
         handleButtons: ->
             # Don't move the player if he's not allowed to (e.g. we're in a menu)
             if not @movementAllowed
-                @reset()
+                @resetAnims()
                 return
+
+            if ig.input.pressed 'attack'
+                if @facing.x != 0
+                    shootX = if @facing.x > 0 then @pos.x + @size.x else @pos.x
+                else
+                    shootX = @pos.x + @size.x * 0.5
+
+                if @facing.y != 0
+                    shootY = if @facing.y > 0 then @pos.y + @size.y else @pos.y
+                else
+                    shootY = @pos.y + @size.y * 0.5
+
+                @fireball.execute(x: shootX, y: shootY)
 
             ### Inventory/Menu Navigation ###
 
             if ig.input.pressed 'inventory'
-                @reset()
+                @resetAnims()
 
                 # If we're already in the inventory menu, close the menu
                 if @state == @states.IN_INVENTORY
@@ -157,55 +189,6 @@ ig.module(
     #        if @state == @states.IN_INVENTORY
                 # Check for keypresses to navigate
 
-            ### Movement ###
-
-            if ig.input.state 'up'
-                @currentAnim = @anims.walkUp
-                @facing = 'Up'
-                @vel.x = 0
-                @vel.y = -@velocity
-
-                if ig.input.state 'right'
-                    @vel.x = @velocity
-                else if ig.input.state 'left'
-                    @vel.x = -@velocity
-
-            else if ig.input.state 'down'
-                @currentAnim = @anims.walkDown
-                @facing = 'Down'
-                @vel.x = 0
-                @vel.y = @velocity
-
-                if ig.input.state 'right'
-                    @vel.x = @velocity
-                else if ig.input.state 'left'
-                    @vel.x = -@velocity
-
-            # If moving sideways, change the hit box dimensions and offset
-            else if ig.input.state 'left'
-                @currentAnim = @anims.walkLeft
-                @facing = 'Left'
-                @vel.x = -@velocity
-                @vel.y = 0
-
-            else if ig.input.state 'right'
-                @currentAnim = @anims.walkRight
-                @facing = 'Right'
-                @vel.x = @velocity
-                @vel.y = 0
-
-            else
-                # Stop all movement and show the correct idle animation for
-                # the direction the player is facing
-                @reset() if not ig.input.pressed 'attack'
-
-        reset: ->
-            # Reset the player idle animation if a weapon isn't active right now
-            if not @weaponManager.weaponIsActive()
-                @currentAnim = @anims['idle' + @facing]
-            else
+        resetAnims: ->
+            if @weaponManager.weaponIsActive()
                 @weaponManager.reset()
-
-            # Cancel all movement
-            @vel.x = 0
-            @vel.y = 0

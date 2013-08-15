@@ -9,7 +9,7 @@ ig.module(
     'game.entities.common.static-entity'
 )
 .defines ->
-    EntityStall = EntityStaticEntity.extend
+    EntityStall = EntityBaseEntity.extend
         size:
             x: 128
             y: 60
@@ -17,6 +17,11 @@ ig.module(
             x: 0
             y: 20
         animSheet: new ig.AnimationSheet 'media/buildings/stall.png', 128, 80
+        animSettings:
+            idle:
+                sequence: [0]
+                frameTime: 1
+        collides: ig.Entity.COLLIDES.FIXED
 
         # The associated trader entity. It gets set manually in Weltmeister, and can be null
         # (a stall doesn't have to "own" a trader)

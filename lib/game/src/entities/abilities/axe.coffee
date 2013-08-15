@@ -1,0 +1,53 @@
+ig.module(
+    'game.entities.abilities.axe'
+)
+.requires(
+    'plusplus.abilities.melee'
+)
+.defines ->
+    ig.EntityAxe = ig.AbilityMelee.extend
+        size:
+            x: 16
+            y: 16
+        collides: ig.Entity.COLLIDES.NEVER
+        type: ig.Entity.TYPE.B
+        checkAgainst: ig.Entity.TYPE.A
+
+        swingSound: new ig.Sound ig.CONFIG.PATH_TO_SOUNDS + 'axe-swing.*'
+
+        # An axe doesn't need to find a target
+        canFindTarget: false
+        requiresTarget: false
+
+        # Don't block regen
+        regenBlocking: false
+
+        cooldownDelay: 0
+
+        damage: 10
+
+        activate: ->
+            @swingSound.play()
+
+            try
+                @parent()
+            catch e
+                console.log e, @failReason
+                @dropEntityTarget()
+                console.log 'sdf'
+
+#        init: (x, y, settings) ->
+#            @lifeTimer = new ig.Timer()
+#            @use.play()
+#
+#            # Call the parent constructor
+#            @parent x, y, settings
+#
+#        update: ->
+#            @kill() if @lifeTimer.delta() > 0.2
+#            @parent()
+#
+#        check: (other) ->
+#            if other.entityType == 'tree'
+#                other.receiveDamage 3.5, @
+#                @kill()

@@ -9,7 +9,7 @@ ig.module(
     'game.entities.common.static-entity'
 )
 .defines ->
-    EntityInventoryItem = EntityStaticEntity.extend
+    EntityInventoryItem = EntityBaseEntity.extend
 
         size:
             x: 250
@@ -20,9 +20,11 @@ ig.module(
         # Ensure the item gets drawn over everything else
         zIndex: 101
 
-        frame: 0
-
         isVisible: false
+
+        init: (x, y, settings) ->
+            @addAnim 'idle', 1, [0]
+            @parent x, y, settings
 
         draw: ->
             @parent() if @isVisible

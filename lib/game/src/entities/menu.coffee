@@ -9,7 +9,7 @@ ig.module(
     'game.entities.common.static-entity'
 )
 .defines ->
-    EntityMenu = EntityStaticEntity.extend
+    EntityMenu = EntityBaseEntity.extend
         size:
             x: 128
             y: 80
@@ -19,6 +19,10 @@ ig.module(
 
         # Whether the menu should be shown on the next draw
         isVisible: false
+
+        init: (x, y, settings) ->
+            @addAnim 'idle', 1, [0]
+            @parent x, y, settings
 
         draw: ->
             if @isVisible

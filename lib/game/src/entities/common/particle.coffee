@@ -6,10 +6,10 @@ ig.module(
     'game.entities.common.particle'
 )
 .requires(
-    'impact.entity'
+    'plusplus.core.entity'
 )
 .defines ->
-    EntityParticle = ig.Entity.extend
+    EntityParticle = ig.EntityExtended.extend
         size: x: 2, y: 2
         maxVel: x: 160, y: 200
         lifetime: 0.7

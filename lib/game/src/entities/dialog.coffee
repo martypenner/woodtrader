@@ -15,6 +15,10 @@ ig.module(
             y: 1
         collides: ig.Entity.COLLIDES.NEVER
         animSheet: new ig.AnimationSheet 'media/dialogs/dialog-lines.png', 1, 1
+        animSettings:
+            idle:
+                sequence: [0]
+                frameTime: 1
 
         lines: new ig.Image 'media/dialogs/dialog-lines.png'
         corners: new ig.Image 'media/dialogs/dialog-corners.png'
@@ -31,8 +35,6 @@ ig.module(
         ctx: null
 
         init: (x, y, settings) ->
-            @addAnim 'idle', 1, [0]
-
             # Cache the canvas context
             @ctx = ig.system.context
 

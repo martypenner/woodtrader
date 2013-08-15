@@ -6,9 +6,9 @@ ig.module(
     'game.entities.common.base-entity'
 )
 .requires(
-    'impact.entity'
+    'plusplus.core.entity'
 )
 .defines ->
-    EntityBaseEntity = ig.Entity.extend
+    EntityBaseEntity = ig.EntityExtended.extend
         init: (x, y, settings) ->
             @parent x, y, settings

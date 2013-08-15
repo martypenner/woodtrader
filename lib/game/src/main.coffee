@@ -21,27 +21,23 @@ ig.module(
     'impact.game'
     'impact.font'
 
-    # Debug
-    'impact.debug.debug'
-
     # Plugins
     'plugins.impact-splash-loader'
     'plugins.director.director'
     'plugins.gui'
+    'plusplus.core.plusplus'
 
     # Levels
     'game.levels.market1'
     'game.levels.forest1'
 
-    # Common
-    'game.common.weaponizr'
+    # Debug
+    'plusplus.debug.debug'
 
     # Entities
     'game.entities.common.base-entity'
     'game.entities.common.particle-generator'
     'game.entities.common.particle'
-    'game.entities.weapons.axe'
-    'game.entities.weapons.fireball'
     'game.entities.inventory'
     'game.entities.inventory-item'
     'game.entities.player'
@@ -57,12 +53,9 @@ ig.module(
 
     # Override the loadLevel function to make the canvas lighter or darker, depending on which level
     # we're loading
-    ig.Game.inject
+    ig.GameExtended.inject
         loadLevel: (level) ->
             persistedProperties = {}
-            if @player? and @player.persistedProperties?
-                for property in @player.persistedProperties
-                    persistedProperties[property] = @player[property]
 
             @parent level
 
@@ -83,20 +76,18 @@ ig.module(
             else
                 {x, y} = @playerStartingLevelPositions[levelName]
 
-            @spawnEntity EntityPlayer, x, y, persistedProperties
+            player = @spawnEntity EntityPlayer, x, y, persistedProperties
+            @entities.push player
 
-            # Create a new weaponizr
-            @weaponizr = new Weaponizr()
-
-    MainGame = ig.Game.extend
+    MainGame = ig.GameExtended.extend
         # Load fonts
         arial12: new ig.Font 'media/fonts/arial-12-normal-white.png'
         arial14: new ig.Font 'media/fonts/arial-14-normal-white.png'
         arial16: new ig.Font 'media/fonts/arial-16-normal-white.png'
 
         # Preload music
-        bgMusicMarket: new ig.Sound 'media/music/01-A-Night-Of-Dizzy-Spells.*'
-        bgMusicForest: new ig.Sound 'media/music/02-Underclocked-Underunderclocked-Mix.*'
+        bgMusicMarket: new ig.Sound ig.CONFIG.PATH_TO_MUSIC + '01-A-Night-Of-Dizzy-Spells.*'
+        bgMusicForest: new ig.Sound ig.CONFIG.PATH_TO_MUSIC + '02-Underclocked-Underunderclocked-Mix.*'
 
         # Preload sounds
         pauseFx: new ig.Sound 'media/sounds/pause.*'
@@ -108,20 +99,19 @@ ig.module(
         # Store a global level director
         director: null
 
-        weaponizr: null
-
         # Sort all entities by their Y position
         autoSort: true
         sortBy: ig.Game.SORT.POS_Y
 
-        # Globally store the player entity and various related data for performance and ease of reference
-        player: null
+        # Globally store the player entity's various related data for performance and ease of reference
         playerStartingLevelPositions:
             Market1: x: 472, y: 292
             Forest1: x: 242, y: 202
         playerLastPos: null
 
         init: ->
+            @parent()
+
             # Auto-pause the game when leaving the browser tab
             $(window).blur -> ig.game.pause()
 
@@ -131,19 +121,6 @@ ig.module(
             # In other words, pausing would work, but unpausing wouldn't.
             $(document).keyup (e) ->
                 ig.game.togglePause() if e.which in [27, 80]
-
-            # Bind keys
-            ig.input.bind ig.KEY.LEFT_ARROW, 'left'
-            ig.input.bind ig.KEY.RIGHT_ARROW, 'right'
-            ig.input.bind ig.KEY.UP_ARROW, 'up'
-            ig.input.bind ig.KEY.DOWN_ARROW, 'down'
-            ig.input.bind ig.KEY.SPACE, 'attack'
-            ig.input.bind ig.KEY.TAB, 'switchWeapon'
-            ig.input.bind ig.KEY.ENTER, 'confirm'
-            ig.input.bind ig.KEY.I, 'inventory'
-
-            # Bind mouse events
-            ig.input.bind ig.KEY.MOUSE1, 'confirm'
 
             @addGui()
 
@@ -159,25 +136,41 @@ ig.module(
             # Setup the level director and auto-load the first level
             @director = new ig.Director @, [LevelMarket1, LevelForest1]
 
+        inputStart: ->
+            # Bind keys
+            ig.input.bind ig.KEY.LEFT_ARROW, 'left'
+            ig.input.bind ig.KEY.RIGHT_ARROW, 'right'
+            ig.input.bind ig.KEY.UP_ARROW, 'up'
+            ig.input.bind ig.KEY.DOWN_ARROW, 'down'
+            ig.input.bind ig.KEY.SPACE, 'attack'
+            ig.input.bind ig.KEY.TAB, 'switchWeapon'
+            ig.input.bind ig.KEY.ENTER, 'confirm'
+            ig.input.bind ig.KEY.I, 'inventory'
+
+            # Bind mouse events
+            ig.input.bind ig.KEY.MOUSE1, 'confirm'
+
         update: ->
             # Update all entities and background maps
             @parent()
 
-            # Update the weapon manager
-            @weaponizr.update()
+            # Sort entities
+            @sortEntities()
 
             @mainBgMap ?= ig.game.getMapByName 'main'
 
-            if @player?
+            if ig.global.player?.name is 'player'
+                player = ig.global.player
+
                 # Store the player's last position so we can spawn him/her at an appropriate place
                 # when loading a new level. E.g. walking through a door on the right edge of the map
                 # and in the center of the screen should spawn the player at the left edge of the
                 # next level's map and in the center
-                @playerLastPos = @player.pos
+                @playerLastPos = player.pos
 
                 # Screen follows the player
-                x = @player.pos.x - ig.system.width / 2
-                y = @player.pos.y - ig.system.height / 2
+                x = player.pos.x - ig.system.width / 2
+                y = player.pos.y - ig.system.height / 2
                 mapWidth = @mainBgMap.width * @mainBgMap.tilesize - ig.system.width
                 mapHeight = @mainBgMap.height * @mainBgMap.tilesize - ig.system.height
 
@@ -192,12 +185,17 @@ ig.module(
             # Call draw on the parent object to make sure that all draws to the canvas are finalized
             @parent()
 
-            hudString = """
-                        Health: #{@player.health}
-                        Mana: #{@player.mana}
-                        Logs: #{@player.inventory.getCount('log')}
-                        """
-            @arial12.draw(hudString, 20, 20)
+            if ig.global.player?.name is 'player'
+                player = ig.global.player
+
+                hudString = """
+                            Health: #{player.health}
+                            Energy: #{player.energy}
+                            Logs: #{player.inventory.getCount('log')}
+                            Current Weapon: #{player.weaponManager.activeWeapon}
+                            """
+
+                @arial12.draw(hudString, 20, 20)
 
             ig.gui.draw()
 
@@ -272,4 +270,5 @@ ig.module(
             @arial16.draw(@gameNameText, x, y, ig.Font.ALIGN.CENTER)
 
     # Start the game
-    ig.main '#canvas', StartScreen, 60, elems.canvas.width(), elems.canvas.height(), 1, ig.ImpactSplashLoader
+#    ig.main '#canvas', StartScreen, 60, elems.canvas.width(), elems.canvas.height(), 1, ig.ImpactSplashLoader
+    ig.main '#canvas', MainGame, 60, elems.canvas.width(), elems.canvas.height(), 1, ig.ImpactSplashLoader
