@@ -1,3 +1,7 @@
+`/*`
+EntityLog = {}
+`*/`
+
 ig.module(
     'game.entities.log'
 )
@@ -6,7 +10,7 @@ ig.module(
     'game.common.flasher'
 )
 .defines ->
-    ig.EntityLog = ig.Particle.extend
+    EntityLog = ig.Particle.extend
         size:
             x: 25
             y: 25

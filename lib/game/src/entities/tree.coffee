@@ -1,3 +1,7 @@
+`/*`
+EntityTree = {}
+`*/`
+
 ig.module(
     'game.entities.tree'
 )
@@ -7,12 +11,13 @@ ig.module(
     'plusplus.helpers.utils'
     'plusplus.entities.particle-color'
     'plusplus.abstractities.creature'
+    'game.entities.log'
 )
 .defines ->
 
     utils = ig.utils
 
-    ig.EntityTree = ig.Creature.extend
+    EntityTree = ig.Creature.extend
         size:
             x: 85
             y: 55
@@ -63,6 +68,6 @@ ig.module(
 
             if (Math.random() * 100) < @dropLogChance
                 # Spawn a log in the approx. center of the tree
-                ig.game.spawnEntity ig.EntityLog, (@size.x - 25) / 2 + @pos.x, (@size.x - 25) / 2 + @pos.y - 10
+                ig.game.spawnEntity EntityLog, (@size.x - 25) / 2 + @pos.x, (@size.x - 25) / 2 + @pos.y - 10
 
             @parent()
