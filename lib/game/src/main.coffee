@@ -168,19 +168,6 @@ ig.module(
                 # next level's map and in the center
                 @playerLastPos = player.pos
 
-                # Screen follows the player
-                x = player.pos.x - ig.system.width / 2
-                y = player.pos.y - ig.system.height / 2
-                mapWidth = @mainBgMap.width * @mainBgMap.tilesize - ig.system.width
-                mapHeight = @mainBgMap.height * @mainBgMap.tilesize - ig.system.height
-
-                # Ensure that the screen doesn't scroll past the map limits
-                x = if x < 0 then 0 else if x > mapWidth then mapWidth else x
-                y = if y < 0 then 0 else if y > mapHeight then mapHeight else y
-
-                @screen.x = x
-                @screen.y = y
-
         draw: ->
             # Call draw on the parent object to make sure that all draws to the canvas are finalized
             @parent()
