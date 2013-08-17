@@ -23,7 +23,6 @@ ig.module(
 
     # Plugins
     'plugins.impact-splash-loader'
-    'plugins.director.director'
     'plugins.gui'
     'plusplus.core.plusplus'
 
@@ -52,33 +51,18 @@ ig.module(
 )
 .defines ->
 
-    # Override the loadLevel function to make the canvas lighter or darker, depending on which level
-    # we're loading
+    # Make the canvas lighter or darker, depending on which level we're building
     ig.GameExtended.inject
-        loadLevel: (level) ->
-            persistedProperties = {}
+        loadLevelDeferred: (level, playerSpawnerName) ->
+#            persistedProperties = {}
 
-            @parent level
+            @parent level, playerSpawnerName
 
-            levelName = switch level
-                when LevelMarket1
-                    elems.canvas.removeClass 'dark'
+            levelName = switch level.toLowerCase()
+                when 'market1'
                     'Market1'
-                when LevelForest1
-                    elems.canvas.addClass 'dark'
+                when 'forest1'
                     'Forest1'
-
-            # Position the player according to where he/she entered the level, or the default starting
-            # position if the level was force-loaded. I add a bit of buffer room (30px) so the load level
-            # triggers don't get triggered repeatedly
-            if @playerLastPos?
-                {x, y} = @playerLastPos
-                x = if x > 30 then 30 else @mainBgMap.width * @mainBgMap.tilesize - 30
-            else
-                {x, y} = @playerStartingLevelPositions[levelName]
-
-            player = @spawnEntity EntityPlayer, x, y, persistedProperties
-            @entities.push player
 
     MainGame = ig.GameExtended.extend
         # Load fonts
@@ -124,8 +108,7 @@ ig.module(
             ig.music.add @bgMusicForest, 'forest'
             ig.music.play 'market'
 
-            # Setup the level director and auto-load the first level
-            @director = new ig.Director @, [LevelMarket1, LevelForest1]
+            @loadLevelDeferred('Market1', 'playerSpawnCheckpoint')
 
         inputStart: ->
             # Bind keys
