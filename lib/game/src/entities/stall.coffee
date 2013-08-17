@@ -6,10 +6,10 @@ ig.module(
     'game.entities.stall'
 )
 .requires(
-    'game.entities.common.static-entity'
+    'plusplus.core.entity'
 )
 .defines ->
-    EntityStall = EntityBaseEntity.extend
+    EntityStall = ig.EntityExtended.extend
         size:
             x: 128
             y: 60
