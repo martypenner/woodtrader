@@ -48,6 +48,7 @@ ig.module(
     'game.entities.menu'
     'game.entities.enemy'
     'game.entities.dialog'
+    'plusplus.entities.conversation'
 )
 .defines ->
 
@@ -111,16 +112,6 @@ ig.module(
 
         init: ->
             @parent()
-
-            # Auto-pause the game when leaving the browser tab
-            $(window).blur -> ig.game.pause()
-
-            # Toggle pausing the game if "P" or "ESC" are pressed. I do this by binding a keyup handler
-            # to the document instead of listening for keypresses in ImpactJS because pausing stops
-            # the game run loop, meaning when it's paused, it no longers pays attention to keypresses.
-            # In other words, pausing would work, but unpausing wouldn't.
-            $(document).keyup (e) ->
-                ig.game.togglePause() if e.which in [27, 80]
 
             @addGui()
 
@@ -205,31 +196,31 @@ ig.module(
 #                click: ->
 #                    console.log 'clicked'
 
-        pause: ->
-            return if not ig.system or not ig.system?.running
-
-            @pauseFx.play()
-            ig.music.pause()
-            ig.system.stopRunLoop()
-            elems.canvas.addClass('inactive')
-
-            # Show the paused text
-            elems.gui.paused.show()
-
-        unpause: ->
-            return if not ig.system or ig.system?.running
-
-            @unpauseFx.play()
-            ig.music.play()
-            ig.system.startRunLoop()
-            elems.canvas.removeClass('inactive')
-            elems.gui.paused.hide()
-
-        togglePause: ->
-            if ig.system?.running
-                ig.game.pause()
-            else
-                ig.game.unpause()
+#        pause: ->
+#            return if not ig.system or not ig.system?.running
+#
+#            @pauseFx.play()
+#            ig.music.pause()
+#            ig.system.stopRunLoop()
+#            elems.canvas.addClass('inactive')
+#
+#            # Show the paused text
+#            elems.gui.paused.show()
+#
+#        unpause: ->
+#            return if not ig.system or ig.system?.running
+#
+#            @unpauseFx.play()
+#            ig.music.play()
+#            ig.system.startRunLoop()
+#            elems.canvas.removeClass('inactive')
+#            elems.gui.paused.hide()
+#
+#        togglePause: ->
+#            if ig.system?.running
+#                ig.game.pause()
+#            else
+#                ig.game.unpause()
 
     StartScreen = ig.Game.extend
         arial12: new ig.Font 'media/fonts/arial-12-normal-white.png'
