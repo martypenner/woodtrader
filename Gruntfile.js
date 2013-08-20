@@ -25,10 +25,6 @@ module.exports = function (grunt) {
             coffee: {
                 files: ['lib/game/src/**/*.coffee'],
                 tasks: ['coffee']
-            },
-            js: {
-                files: ['lib/game/src/**/*.js'],
-                tasks: ['uglify:js']
             }
         },
         coffee: {
@@ -55,6 +51,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
-    grunt.registerTask('default', ['coffee', 'uglify:js']);
+    grunt.registerTask('default', ['coffee']);
 
 };
